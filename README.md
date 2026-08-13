@@ -19,8 +19,13 @@
     <style>
         /* 全局設定：背景改成咖啡店溫馨氛圍 */
         body {
-            font-family: "微軟正黑體", sans-serif;
-            background: linear-gradient(135deg, #e6d5c3 0%, #c8b7a6 100%);
+            font-family: "PingFang TC", "Heiti TC", "Helvetica Neue", "Microsoft JhengHei", sans-serif;
+    
+             /* 1. 把這三行加進去，取代原本的 background 漸層 */
+    	    background-image: url("cafe-bg.png"); /* 括號內填寫你的圖片檔名 */
+    	    background-size: cover;              /* 讓圖片自動鋪滿整個手機或電腦螢幕 */
+    	    background-position: center;         /* 讓圖片置中對齊 */
+    	    background-attachment: fixed;        /* 讓背景固定，滑動時不會亂跑 */
             color: #4a3c31; /* 深咖啡色字體 */
             padding: 20px;
             display: flex;
@@ -52,6 +57,30 @@
             margin-bottom: 20px;
             font-weight: 500;
         }
+	/* 「歡迎進入遊戲！」的專屬大外框樣式 */
+	.welcome-title {
+    		display: block;               /* 讓它獨立一行 */
+    		text-align: center;           /* 文字置中 */
+    		font-size: 24px;              /* 放大字體 */
+    		font-weight: bold;            /* 加粗 */
+    		background-color: #BC4F4F;    /* 色號#BC4F4F外框背景 */
+    		color: white;                 /* 白色文字 */
+    		padding: 10px;                /* 內鄰近留白，讓外框更好看 */
+    		border-radius: 8px;           /* 微微圓角 */
+    		margin-bottom: 20px;          /* 與下一段文字保持距離 */
+	}
+
+	/* 數字「20」的專屬小外框樣式 */
+	.highlight-box {
+    		background-color: #BC4F4F;    /* 色號#BC4F4F外框背景 */
+    		color: white;                 /* 白色文字 */
+    		padding: 2px 8px;             /* 左右留一點邊，像個小標籤 */
+    		border-radius: 4px;           /* 微微圓角 */
+    		font-weight: bold;            /* 讓數字更明顯 */
+    		display: inline-block;        /* 確保外框包覆緊密 */
+    		margin: 0 2px;
+	}
+
 
         .input-group {
             margin: 25px 0;
@@ -90,6 +119,15 @@
             display: block;
             box-shadow: 0 4px 10px rgba(233, 139, 80, 0.3);
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s; /* 彈性縮放 */
+	/* 遊戲圖片專用控制：置中、大圓角、手機不撐爆 */
+		.game-img {
+    		display: block;            /* 讓圖片獨立占一行才能置中 */
+    		margin: 15px auto;         /* 上下空15像素，左右自動置中 */
+    		width: 100%;               /* 在手機上自動適應寬度 */
+    		max-width: 180px;          /* 限制最大寬度在 180 像素，避免太大隻 */
+    		border-radius: 12px;       /* 幫圖片加上溫柔的小圓角 */
+    		box-shadow: 0 4px 10px rgba(74, 60, 49, 0.1); /* 淡淡的陰影，讓畫面更精緻 */
+		}
         }
 
         /* 滑鼠移過去與手指按住的微微放大特效 */
@@ -148,18 +186,25 @@
     <div id="game-container">
         <div id="game-content">
             <!-- 一、 遊戲開頭 -->
-            <div id="welcome-view">
-                <div class="section">
-                    歡迎進入遊戲，你的任務是要存到20萬金幣，開一家貓咪咖啡廳。你的銀行帳戶是202608131026，裡面有存款5 萬金幣。
-                </div>
-                <div class="input-group">
-                    <label for="nickname">請輸入遊戲暱稱：</label>
-                    <input type="text" id="nickname" placeholder="">
-                </div>
-                <div>
-                    <button class="btn" onclick="submitNickname()">下一步</button>
-                </div>
-            </div>
+<div id="welcome-view">
+    <div class="section">
+        <span class="welcome-title">歡迎進入遊戲！</span>
+        你的任務是要存到<span class="highlight-box">20</span>萬金幣，開一家貓咪咖啡廳。<br><br>
+        你的銀行帳戶是202608131026，裡面有存款5 萬金幣。
+    </div>
+    
+    <!-- 插入小獅子泡咖啡圖片 -->
+    <img src="coffee-lion.png" style="display: block; margin: 15px auto; width: 100%; max-width: 180px; border-radius: 12px;" alt="小獅子泡咖啡">
+
+    <div class="input-group">
+        <label for="nickname">請輸入遊戲暱稱：</label>
+        <input type="text" id="nickname" placeholder="">
+    </div>
+    <div>
+        <button class="btn" onclick="submitNickname()">下一步</button>
+    </div>
+</div>
+
         </div>
     </div>
 
