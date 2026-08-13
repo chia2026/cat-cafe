@@ -146,7 +146,7 @@ input[type="text"] {
             <div class="countdown" id="timer-text"></div>
         `;
 
-        let timeLeft = 7;
+        let timeLeft = 5;
         const timer = setInterval(() => {
             timeLeft--;
             if (timeLeft <= 0) {
@@ -164,7 +164,7 @@ input[type="text"] {
             return;
         }
 
-        // 如果一開始就直接按紅色叉叉，才需要顯示 7秒稱讚畫面
+        // 如果一開始就直接按紅色叉叉，才需要顯示 5秒稱讚畫面
         const content = document.getElementById('game-content');
         content.innerHTML = `
             <div class="alert-text">
@@ -173,7 +173,7 @@ input[type="text"] {
             <div class="countdown" id="timer-text"></div>
         `;
 
-        let timeLeft = 7;
+        let timeLeft = 5;
         const timer = setInterval(() => {
             timeLeft--;
             if (timeLeft <= 0) {
