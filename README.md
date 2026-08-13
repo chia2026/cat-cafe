@@ -17,80 +17,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>開間貓咪咖啡廳</title>
     <style>
+        /* 全局設定：背景改成咖啡店溫馨氛圍 */
         body {
             font-family: "微軟正黑體", sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
+            background: linear-gradient(135deg, #e6d5c3 0%, #c8b7a6 100%);
+            color: #4a3c31; /* 深咖啡色字體 */
             padding: 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+            margin: 0;
         }
-        /* 遊戲主要容器 - 調整為手機友善 */
-#game-container {
-    background: white;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    width: 90%;          /* 讓它在手機上左右留有 5% 的安全邊界 */
-    max-width: 500px;     /* 桌電上看時，最大限制在 500px 寬 */
-    box-sizing: border-box; /* 防止 padding 把盒子撐爆 */
-    min-height: 350px;
-}
 
-/* 讓手機上的按鈕大一點，方便小朋友用手指頭按 */
-.btn {
-    padding: 12px 24px;   /* 加大點擊面積 */
-    font-size: 18px;      /* 放大字體 */
-    cursor: pointer;
-    width: 100%;          /* 讓按鈕在手機上可以滿版，比較好點 */
-    max-width: 200px;
-}
+        /* 遊戲主要容器：手機友善滿版，色號 #F3CD97 */
+        #game-container {
+            background-color: #F3CD97;
+            border: 4px solid #d4ab73; /* 咖啡色邊框 */
+            border-radius: 18px;       /* 圓潤對話框 */
+            padding: 25px;
+            width: 92%;                /* 手機版左右留邊 */
+            max-width: 500px;           /* 桌電版最大寬度 */
+            box-sizing: border-box;
+            min-height: 380px;
+            box-shadow: 0 10px 25px rgba(74, 60, 49, 0.2); /* 溫暖陰影 */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-/* 輸入框也要大一點 */
-input[type="text"] {
-    padding: 12px;
-    font-size: 18px;
-    width: 80%;
-    box-sizing: border-box;
-}
+        .section {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
 
+        .input-group {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        /* 輸入框與圓角 */
+        input[type="text"] {
+            padding: 12px;
+            font-size: 18px;
+            width: 85%;
+            border: 2px solid #d4ab73;
+            border-radius: 10px;
+            outline: none;
+            text-align: center;
+            background-color: #fffaf5;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus {
+            border-color: #E98B50;
+        }
+
+        /* 按鈕：色號 #E98B50，大圓角，具備手指/滑鼠放大特效 */
         .btn {
-            padding: 10px 20px;
-            font-size: 16px;
+            background-color: #E98B50;
+            color: white;
+            border: none;
+            border-radius: 25px;       /* 可愛的大圓角 */
+            padding: 14px 28px;        /* 加大點擊面積 */
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
+            width: 100%;               /* 手機自動滿版 */
+            max-width: 220px;          /* 桌電限制寬度 */
+            margin: 0 auto;
+            display: block;
+            box-shadow: 0 4px 10px rgba(233, 139, 80, 0.3);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s; /* 彈性縮放 */
         }
+
+        /* 滑鼠移過去與手指按住的微微放大特效 */
+        .btn:hover, .btn:active {
+            transform: scale(1.06);    /* 微微放大 6% */
+            box-shadow: 0 6px 15px rgba(233, 139, 80, 0.5); 
+            background-color: #df793b; /* 顏色微微加深 */
+        }
+
+        /* 詐騙說明畫面特殊外觀 */
         #birthday-screen {
             position: relative;
-            background-color: #fafafa;
-            border: 2px dashed #999;
+            background-color: #fffaf5;
+            border: 2px dashed #d4ab73;
+            border-radius: 12px;
             padding: 40px 20px;
             text-align: center;
         }
+
         .red-x {
             position: absolute;
             top: 10px;
             right: 15px;
-            font-size: 24px;
-            color: red;
+            font-size: 26px;
+            color: #ff5252;
             cursor: pointer;
             font-weight: bold;
+            transition: transform 0.2s;
         }
+        .red-x:hover, .red-x:active {
+            transform: scale(1.2);     /* 叉叉按的時候變大 */
+        }
+
         .bday-input {
-            padding: 10px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 18px;
             text-align: center;
             cursor: pointer;
-            width: 50%;
+            width: 70%;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
         }
+
         .alert-text {
-            font-size: 18px;
-            line-height: 1.6;
-            color: #333;
-        }
-        .countdown {
-            font-size: 14px;
-            color: #666;
-            margin-top: 15px;
+            font-size: 19px;
+            line-height: 1.7;
+            color: #4a3c31;
+            text-align: center;
+            padding: 10px;
         }
     </style>
 </head>
@@ -121,7 +170,6 @@ input[type="text"] {
         account: "202608131026"
     };
 
-    // 判斷玩家是不是從警示語畫面退回來的
     let cameFromWarning = false; 
 
     function submitNickname() {
@@ -147,59 +195,43 @@ input[type="text"] {
         `;
     }
 
-    // 小朋友按了輸入框
     function clickBirthdayInput() {
-        cameFromWarning = true; // 標記他們看過警示語了
+        cameFromWarning = true; 
         const content = document.getElementById('game-content');
         content.innerHTML = `
             <div class="alert-text">
                 不可以隨意交出身分訊息！在遊戲中有詐騙任務，如果沒做出正確反應，就會被扣錢。請跳出後按紅叉叉接續遊戲
             </div>
-            <div class="countdown" id="timer-text"></div>
         `;
 
-        let timeLeft = 7;
-        const timer = setInterval(() => {
-            timeLeft--;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                showBirthdayScreen(); // 
-            }
-        }, 1000);
+        setTimeout(() => {
+            showBirthdayScreen();
+        }, 8000);
     }
 
-    // 小朋友按了紅色叉叉
     function clickRedX() {
-        // 如果是從警示畫面回來的，直接跳過稱讚畫面進入遊戲
         if (cameFromWarning) {
             enterNextMission();
             return;
         }
 
-        // 如果一開始就直接按紅色叉叉，才需要顯示 7秒稱讚畫面
         const content = document.getElementById('game-content');
         content.innerHTML = `
             <div class="alert-text">
                 很棒！你沒有交出身分訊息！在遊戲中有詐騙任務，如果沒做出正確反應，就會被扣錢。
             </div>
-            <div class="countdown" id="timer-text"></div>
         `;
 
-        let timeLeft = 7;
-        const timer = setInterval(() => {
-            timeLeft--;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                enterNextMission();
-            }
-        }, 1000);
+        setTimeout(() => {
+            enterNextMission();
+        }, 8000);
     }
 
     function enterNextMission() {
         const content = document.getElementById('game-content');
         content.innerHTML = `
-            <h3>遊戲內容開始</h3>
-            <p>暱稱：${gameState.playerName}</p>
+            <h3>🐾 遊戲內容開始</h3>
+            <p>歡迎，<b>${gameState.playerName}</b>！</p>
             <p>（請在此處提供下一個任務的腳本，我們再把它接上去）</p>
         `;
     }
@@ -207,6 +239,7 @@ input[type="text"] {
 
 </body>
 </html>
+
 
 
 這個開頭代碼完全根據你的第一部分腳本撰寫。
