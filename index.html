@@ -1,881 +1,954 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的貓咪咖啡廳</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fef2a0;
-            background-image: url('cafe-bg.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #fef2a0;
+        background-image: url('cafe-bg.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(254, 242, 160, 0.4);
-            z-index: -1;
-        }
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(254, 242, 160, 0.4);
+        z-index: -1;
+      }
 
-        .game-box {
-            width: 100%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.98);
-            border: 5px solid #8b5a2b; 
-            border-radius: 20px;
-            padding: 20px;
-            box-sizing: border-box;
-            box-shadow: 0 8px 25px rgba(139, 90, 43, 0.3);
-            position: relative;
-        }
+      .game-box {
+        width: 100%;
+        max-width: 400px;
+        background: rgba(255, 255, 255, 0.98);
+        border: 5px solid #8b5a2b;
+        border-radius: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+        box-shadow: 0 8px 25px rgba(139, 90, 43, 0.3);
+        position: relative;
+      }
 
-        /* 頂部狀態資訊看板 */
-        .top-info {
-            background-color: #F3cd97; 
-            color: #8b5a2b;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-weight: bold;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
+      /* 頂部狀態資訊看板 */
+      .top-info {
+        background-color: #F3cd97;
+        color: #8b5a2b;
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-weight: bold;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
 
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px dashed rgba(139, 90, 43, 0.2);
-            padding: 2px 0;
-        }
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px dashed rgba(139, 90, 43, 0.2);
+        padding: 2px 0;
+      }
 
-        .info-row:last-child {
-            border-bottom: none;
-        }
+      .info-row:last-child {
+        border-bottom: none;
+      }
 
-        .gold-highlight {
-            color: #e98b50; 
-            font-weight: bold;
-            font-size: 15px;
-        }
+      .gold-highlight {
+        color: #e98b50;
+        font-weight: bold;
+        font-size: 15px;
+      }
 
-        /* 場景控制 */
-        .page {
-            display: none;
-        }
+      /* 場景控制 */
+      .page {
+        display: none;
+      }
 
-        .page.active {
-            display: block;
-        }
+      .page.active {
+        display: block;
+      }
 
-        h2 {
-            color: #8b5a2b;
-            margin-top: 0;
-            text-align: center;
-            font-size: 22px;
-        }
+      h2 {
+        color: #8b5a2b;
+        margin-top: 0;
+        text-align: center;
+        font-size: 22px;
+      }
 
-        /* 遊戲內插圖樣式 */
-        .game-img {
-            display: block;
-            max-width: 80%;
-            height: auto;
-            margin: 15px auto;
-            border-radius: 10px;
-        }
+      /* 遊戲內插圖樣式 */
+      .game-img {
+        display: block;
+        max-width: 80%;
+        height: auto;
+        margin: 15px auto;
+        border-radius: 10px;
+      }
 
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #333;
-        }
+      p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #333;
+      }
 
-        .highlight-text {
-            color: #e98b50; 
-            font-weight: bold;
-        }
+      .highlight-text {
+        color: #e98b50;
+        font-weight: bold;
+      }
 
-        .danger-text {
-            color: #bc4f4f; 
-            font-weight: bold;
-            font-size: 22px;
-            text-align: center;
-            margin-top: 0;
-        }
+      .danger-text {
+        color: #bc4f4f;
+        font-weight: bold;
+        font-size: 22px;
+        text-align: center;
+        margin-top: 0;
+      }
 
-        /* 大按鈕與輸入框 */
-        input[type="text"], input[type="date"] {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-            border: 3px solid #F3cd97;
-            border-radius: 10px;
-            text-align: center;
-            color: #8b5a2b;
-            font-weight: bold;
-            background-color: #fffdf0;
-        }
+      /* 大按鈕與輸入框 */
+      input[type="text"],
+      input[type="date"] {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+        border: 3px solid #F3cd97;
+        border-radius: 10px;
+        text-align: center;
+        color: #8b5a2b;
+        font-weight: bold;
+        background-color: #fffdf0;
+      }
 
-        input[type="text"]:focus, input[type="date"]:focus {
-            border-color: #e98b50;
-            outline: none;
-        }
+      input[type="text"]:focus,
+      input[type="date"]:focus {
+        border-color: #e98b50;
+        outline: none;
+      }
 
-        .my-btn {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            background-color: #e98b50; 
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 6px rgba(233, 139, 80, 0.3);
-            transition: transform 0.1s;
-        }
+      .my-btn {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        background-color: #e98b50;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 6px rgba(233, 139, 80, 0.3);
+        transition: transform 0.1s;
+      }
 
-        .my-btn:active {
-            transform: scale(0.98);
-        }
+      .my-btn:active {
+        transform: scale(0.98);
+      }
 
-        .my-btn:disabled {
-            background-color: #ccc;
-            color: #666;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
+      .my-btn:disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
 
-        /* 偽裝畫面專用：右上角紅色大叉叉 */
-        .scam-area {
-            position: relative;
-            padding-top: 40px;
-        }
+      /* 偽裝畫面專用：右上角紅色大叉叉 */
+      .scam-area {
+        position: relative;
+        padding-top: 40px;
+      }
 
-        .red-x-btn {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: #bc4f4f; 
-            color: white;
-            border: 2px solid white;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 3px 6px rgba(188, 79, 79, 0.3);
-        }
+      .red-x-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #bc4f4f;
+        color: white;
+        border: 2px solid white;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 3px 6px rgba(188, 79, 79, 0.3);
+      }
 
-        #p3-warning {
-            background-color: rgba(188, 79, 79, 0.05);
-            border-radius: 10px;
-            padding: 5px;
-        }
+      #p3-warning {
+        background-color: rgba(188, 79, 79, 0.05);
+        border-radius: 10px;
+        padding: 5px;
+      }
 
-        #p3-success {
-            background-color: rgba(254, 242, 160, 0.2);
-            border-radius: 10px;
-            padding: 5px;
-        }
+      #p3-success {
+        background-color: rgba(254, 242, 160, 0.2);
+        border-radius: 10px;
+        padding: 5px;
+      }
 
-        /* ==========================================================================
+      /* ==========================================================================
            以下為【資深工程師擴充新增】的第一關相關美化與填空樣式，完美融合原有童趣風格
            ========================================================================== */
-        
-        /* 倒數計時器 */
-        .timer-banner {
-            background-color: #bc4f4f;
-            color: white;
-            text-align: center;
-            padding: 8px;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            box-shadow: 0 3px 6px rgba(188, 79, 79, 0.2);
-        }
+      /* 倒數計時器 */
+      .timer-banner {
+        background-color: #bc4f4f;
+        color: white;
+        text-align: center;
+        padding: 8px;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        box-shadow: 0 3px 6px rgba(188, 79, 79, 0.2);
+      }
 
-        /* 大尺寸配方圖佔位符區塊 */
-        .recipe-chart-container {
-            width: 100%;
-            background-color: #fffdf0;
-            border: 3px dashed #e98b50;
-            border-radius: 12px;
-            padding: 15px;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-            text-align: center;
-        }
+      /* 大尺寸配方圖佔位符區塊 */
+      .recipe-chart-container {
+        width: 100%;
+        background-color: #fffdf0;
+        border: 3px dashed #e98b50;
+        border-radius: 12px;
+        padding: 15px;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+        text-align: center;
+      }
 
-        /* 咖啡配方清單文字 */
-        .recipe-list {
-            text-align: left;
-            margin: 0 auto;
-            display: inline-block;
-            font-size: 15px;
-            line-height: 1.8;
-            color: #5d3a1a;
-            font-weight: bold;
-        }
+      /* 咖啡配方清單文字 */
+      .recipe-list {
+        text-align: left;
+        margin: 0 auto;
+        display: inline-block;
+        font-size: 15px;
+        line-height: 1.8;
+        color: #5d3a1a;
+        font-weight: bold;
+      }
 
-        /* 客人點餐對話框 */
-        .customer-box {
-            background: #fbf8eb;
-            border: 2px solid #F3cd97;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            position: relative;
-        }
+      /* 客人點餐對話框 */
+      .customer-box {
+        background: #fbf8eb;
+        border: 2px solid #F3cd97;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+        position: relative;
+      }
 
-        .customer-title {
-            color: #e98b50;
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
+      .customer-title {
+        color: #e98b50;
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
 
-        /* 填空題輸入列 */
-        .quiz-row {
-            margin: 12px 0;
-            font-size: 16px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+      /* 填空題輸入列 */
+      .quiz-row {
+        margin: 12px 0;
+        font-size: 16px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      }
 
-        /* 填空專用精緻小數字框 */
-        .quiz-input {
-            width: 60px;
-            padding: 6px;
-            font-size: 16px;
-            border: 2px solid #F3cd97;
-            border-radius: 6px;
-            text-align: center;
-            margin: 0 5px;
-            color: #8b5a2b;
-            font-weight: bold;
-            background-color: #fff;
-        }
+      /* 填空專用精緻小數字框 */
+      .quiz-input {
+        width: 60px;
+        padding: 6px;
+        font-size: 16px;
+        border: 2px solid #F3cd97;
+        border-radius: 6px;
+        text-align: center;
+        margin: 0 5px;
+        color: #8b5a2b;
+        font-weight: bold;
+        background-color: #fff;
+      }
 
-        .quiz-input:focus {
-            border-color: #e98b50;
-            outline: none;
-        }
+      .quiz-input:focus {
+        border-color: #e98b50;
+        outline: none;
+      }
 
-        /* 滿版未知來電覆蓋畫面 */
-        .scam-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #1a1a1a;
-            z-index: 9999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+      /* 滿版未知來電覆蓋畫面 */
+      .scam-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #1a1a1a;
+        z-index: 9999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
 
-        /* 手機來電 UI 模擬器 */
-        .phone-container {
-            width: 100%;
-            max-width: 360px;
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            color: white;
-            padding: 40px 20px;
-            box-sizing: border-box;
-            text-align: center;
-        }
+      /* 手機來電 UI 模擬器 */
+      .phone-container {
+        width: 100%;
+        max-width: 360px;
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: white;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        text-align: center;
+      }
 
-        .caller-id {
-            font-size: 26px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-top: 30px;
-        }
+      .caller-id {
+        font-size: 26px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-top: 30px;
+      }
 
-        .caller-location {
-            font-size: 16px;
-            color: #aaa;
-            margin-top: 8px;
-        }
+      .caller-location {
+        font-size: 16px;
+        color: #aaa;
+        margin-top: 8px;
+      }
 
-        /* 來電動作按鈕區 */
-        .phone-actions {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 40px;
-        }
+      /* 來電動作按鈕區 */
+      .phone-actions {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 40px;
+      }
 
-        .phone-btn-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-        }
+      .phone-btn-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+      }
 
-        .phone-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28px;
-            margin-bottom: 10px;
-            transition: transform 0.1s;
-        }
+      .phone-circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 28px;
+        margin-bottom: 10px;
+        transition: transform 0.1s;
+      }
 
-        .phone-circle:active {
-            transform: scale(0.9);
-        }
+      .phone-circle:active {
+        transform: scale(0.9);
+      }
 
-        .btn-decline { background-color: #ff3b30; } /* 紅色掛斷 */
-        .btn-accept { background-color: #34c759; }  /* 綠色接聽 */
+      .btn-decline {
+        background-color: #ff3b30;
+      }
 
-        .phone-label {
-            font-size: 14px;
-            color: white;
-        }
+      /* 紅色掛斷 */
+      .btn-accept {
+        background-color: #34c759;
+      }
 
-        /* 詐騙結果回饋彈窗 */
-        .scam-result-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 10000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+      /* 綠色接聽 */
+      .phone-label {
+        font-size: 14px;
+        color: white;
+      }
 
-        .scam-result-box {
-            width: 100%;
-            max-width: 360px;
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-sizing: border-box;
-            text-align: center;
-        }
+      /* 詐騙結果回饋彈窗 */
+      .scam-result-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 10000;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
 
-        .result-icon {
-	font-size: 50px;
-	margin-bottom: 15px;
-        }
+      .scam-result-box {
+        width: 100%;
+        max-width: 360px;
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        box-sizing: border-box;
+        text-align: center;
+      }
 
-        .scam-result-title {
-            margin-bottom: 10px;
-        }
+      .result-icon {
+        font-size: 50px;
+        margin-bottom: 15px;
+      }
 
-        .scam-result-body {
-            font-size: 15px;
-            text-align: left;
-            margin-bottom: 20px;
-        }
+      .scam-result-title {
+        margin-bottom: 10px;
+      }
 
-        .scam-result-countdown {
-            font-weight: bold;
-            color: #666;
-            font-size: 14px;
-        }
+      .scam-result-body {
+        font-size: 15px;
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .scam-result-countdown {
+        font-weight: bold;
+        color: #666;
+        font-size: 14px;
+      }
+
+      /* ==========================================================================
+           全新優化：第一關結算畫面童趣風完賽成績單卡片樣式
+           ========================================================================== */
+      .clear-card {
+        background: #ffffff;
+        border: 3px solid #8b5a2b;
+        border-radius: 24px;
+        padding: 25px 20px;
+        margin: 20px 0;
+        position: relative;
+        box-shadow: 0 10px 0 #f3cd97;
+        /* 營造可愛厚實的立體卡片感 */
+        background-image: radial-gradient(#fffdf0 20%, transparent 20%), radial-gradient(#fffdf0 20%, transparent 20%);
+        background-size: 16px 16px;
+        background-position: 0 0, 8px 8px;
+        /* 隱約的溫馨暖白點點背景 */
+      }
+
+      /* 頂部裝飾緞帶 */
+      .card-ribbon {
+        background: #e98b50;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 6px 20px;
+        border-radius: 30px;
+        display: inline-block;
+        margin-top: -10px;
+        box-shadow: 0 4px 0 #b35f2b;
+        border: 2px solid #ffffff;
+      }
+
+      /* 成績單條目排版 */
+      .score-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fffdf0;
+        border: 2px dashed #f3cd97;
+        border-radius: 14px;
+        padding: 12px 15px;
+        margin: 12px 0;
+      }
+
+      .score-label {
+        font-weight: bold;
+        color: #8b5a2b;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .score-val {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      /* 總計大區塊 */
+      .total-score-box {
+        background: linear-gradient(135deg, #fffdf0 0%, #fbeacf 100%);
+        border: 3px solid #e98b50;
+        border-radius: 16px;
+        padding: 15px;
+        margin-top: 20px;
+        position: relative;
+      }
+
+      /* 裝飾用的可愛貓爪符號 */
+      .cat-paw-decor {
+        font-size: 24px;
+        color: #e98b50;
+        margin: 5px 0;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="game-box">
-        <!-- 頂部狀態看板 -->
-        <div class="top-info">
-            <div class="info-row">
-                <span>👤：<span id="stat-name">小朋友</span></span>
-            </div>
-            <div class="info-row">
-                <span>💳 銀行帳戶：<span id="stat-account">20260813</span></span>
-                <span>餘額：<span id="stat-gold" class="gold-highlight">150,000</span></span>
-            </div>
+      <!-- 頂部狀態看板 -->
+      <div class="top-info">
+        <div class="info-row">
+          <span>👤： <span id="stat-name">小朋友</span>
+          </span>
         </div>
-
-        <!-- 畫面 1：遊戲說明與暱稱輸入 -->
-        <div id="p1" class="page active">
-            <h2>歡迎進入遊戲！</h2>
-            
-            <img src="coffee-lion.png" alt="Coffee Lion" class="game-img">
-            
-            <p>你的任務是存到 <span class="highlight-text">25 萬</span>金幣，並購買價值 <span class="highlight-text">5 萬</span>的皇家咖啡機，成功開一家貓咪咖啡廳。</p>
-            <p>銀行帳戶是 <span class="highlight-text">20260813</span>，目前有 <span class="highlight-text">15 萬</span>金幣。</p>
-            
-            <label style="font-weight: bold; display: block; margin-bottom: 8px; color: #8b5a2b;">請輸入遊戲暱稱：</label>
-            <input type="text" id="name-input" placeholder="在這裡輸入名字">
-            <button class="my-btn" onclick="submitNameAndStart()">確定</button>
+        <div class="info-row">
+          <span>💳 銀行帳戶： <span id="stat-account">20260813</span>
+          </span>
+          <span>餘額： <span id="stat-gold" class="gold-highlight">150,000</span>
+          </span>
         </div>
-
-        <!-- 畫面 3：偽裝的輸入生日畫面 -->
-        <div id="p3" class="page">
-            <div class="scam-area">
-                <!-- 右上角紅色叉叉 -->
-                <button class="red-x-btn" onclick="clickRedX()">X</button>
-                
-                <h2>請輸入生日開始遊戲</h2>
-                <input type="date" id="birth-input" onfocus="clickBirthBox()" onclick="clickBirthBox()">
-            </div>
+      </div>
+      <!-- 畫面 1：遊戲說明與暱稱輸入 -->
+      <div id="p1" class="page active">
+        <h2>歡迎進入遊戲！</h2>
+        <img src="coffee-lion.png" alt="Coffee Lion" class="game-img">
+        <p>你的任務是存到 <span class="highlight-text">25 萬</span>金幣，並購買價值 <span class="highlight-text">5 萬</span>的皇家咖啡機，成功開一家貓咪咖啡廳。 </p>
+        <p>銀行帳戶是 <span class="highlight-text">20260813</span>，目前有 <span class="highlight-text">15 萬</span>金幣。 </p>
+        <label style="font-weight: bold; display: block; margin-bottom: 8px; color: #8b5a2b;">請輸入遊戲暱稱：</label>
+        <input type="text" id="name-input" placeholder="在這裡輸入名字">
+        <button class="my-btn" onclick="submitNameAndStart()">確定</button>
+      </div>
+      <!-- 畫面 3：偽裝的輸入生日畫面 -->
+      <div id="p3" class="page">
+        <div class="scam-area">
+          <!-- 右上角紅色叉叉 -->
+          <button class="red-x-btn" onclick="clickRedX()">X</button>
+          <h2>請輸入生日開始遊戲</h2>
+          <input type="date" id="birth-input" onfocus="clickBirthBox()" onclick="clickBirthBox()">
         </div>
-
-        <!-- 分支 A：被騙跳出的警示畫面 -->
-        <div id="p3-warning" class="page">
-            <h2 class="danger-text">🚨 不可以交出身分訊息！</h2>
-            <p>在遊戲中有詐騙任務，如果沒做出正確反應，就會被扣錢。</p>
-            <p style="color: #bc4f4f; font-weight: bold; text-align: center;">請跳出後按右上角的紅叉叉接續遊戲。</p>
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #F3cd97;">
-            <button class="my-btn" id="warn-btn" onclick="backToPage3()" disabled>返回</button>
+      </div>
+      <!-- 分支 A：被騙跳出的警示畫面 -->
+      <div id="p3-warning" class="page">
+        <h2 class="danger-text">🚨 不可以交出身分訊息！</h2>
+        <p>在遊戲中有詐騙任務，如果沒做出正確反應，就會被扣錢。</p>
+        <p style="color: #bc4f4f; font-weight: bold; text-align: center;">請跳出後按右上角的紅叉叉接續遊戲。</p>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #F3cd97;">
+        <button class="my-btn" id="warn-btn" onclick="backToPage3()" disabled>返回</button>
+      </div>
+      <!-- 分支 B：直接選對的讚美畫面 -->
+      <div id="p3-success" class="page">
+        <h2 id="success-headline" style="color: #8b5a2b;">🎉 太棒了！</h2>
+        <p>在遊戲中有詐騙任務，如果沒做出正確反應，就會被扣錢。</p>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #F3cd97;">
+        <button class="my-btn" id="success-btn" onclick="goToMainGame()" disabled>正式進入遊戲</button>
+      </div>
+      <!-- 預留畫面：主線遊戲（已在此處完美延伸接續第一關） -->
+      <div id="p-main" class="page">
+        <h2>☕ 第一關：咖啡配方大挑戰</h2>
+        <p>為了開設一家夢想中的貓咪咖啡廳，『 <span id="intro-player-name" class="highlight-text"></span>』每天去咖啡店學做咖啡。 </p>
+        <div class="customer-box" style="background-color: #fffdf0;">
+          <div class="customer-title">🦁 咖啡大獅：</div>
+          <p style="margin: 5px 0; font-size: 15px;">「作為我的徒弟，要記得所有咖啡的配方。你有 <span class="highlight-text">20秒</span> 可以記得配方，接著就去面對客人吧！」 </p>
         </div>
-
-        <!-- 分支 B：直接選對的讚美畫面 -->
-        <div id="p3-success" class="page">
-            <h2 id="success-headline" style="color: #8b5a2b;">🎉 太棒了！</h2>
-            <p>在遊戲中有詐騙任務，如果沒做出正確反應，就會被扣錢。</p>
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #F3cd97;">
-            <button class="my-btn" id="success-btn" onclick="goToMainGame()" disabled>正式進入遊戲</button>
+        <button class="my-btn" onclick="startRecipeMemoryStage()">我知道了，開始記配方！</button>
+      </div>
+      <!-- 20秒配方記憶畫面（已根據需求進行局部的文字與圖片修改） -->
+      <div id="p-memory" class="page">
+        <div class="timer-banner">⏳ 剩餘記憶時間： <span id="memory-timer">20</span> 秒 </div>
+        <h2>📋 咖啡秘笈</h2>
+        <!-- 1. 已將「皇家咖啡秘笈」改成「咖啡秘笈」 -->
+        <div class="recipe-chart-container">
+          <!-- 2. 已將圖片檔名改為 coffee.png，並刪除了原本的錯誤提示文字 -->
+          <img src="coffee.png" alt="【咖啡配方秘笈大全】" class="game-img">
+          <div class="recipe-list"> ☕ <b>美式</b>：1份濃縮咖啡、6份水 <br> 🥛 <b>拿鐵</b>：1份濃縮咖啡、4份牛奶、1份奶泡 <br> ☁️ <b>卡布奇諾</b>：2份濃縮咖啡、2份牛奶、2份奶泡 <br> 🍯 <b>焦糖瑪奇朵</b>：2份濃縮咖啡、4份奶泡、1份焦糖 <br> 🍫 <b>摩卡</b>：2份濃縮咖啡、2份牛奶、1份巧克力、1份奶泡 <br> 🍋 <b>西西里</b>：1份濃縮咖啡、2份水、0.5份檸檬汁、0.5份蜂蜜 </div>
         </div>
-
-        <!-- 預留畫面：主線遊戲（已在此處完美延伸接續第一關） -->
-        <div id="p-main" class="page">
-            <h2>☕ 第一關：咖啡配方大挑戰</h2>
-            <p>為了開設一家夢想中的貓咪咖啡廳，『<span id="intro-player-name" class="highlight-text"></span>』每天去咖啡店學做咖啡。</p>
-            
-            <div class="customer-box" style="background-color: #fffdf0;">
-                <div class="customer-title">🦁 咖啡大獅：</div>
-                <p style="margin: 5px 0; font-size: 15px;">「作為我的徒弟，要記得所有咖啡的配方。你有 <span class="highlight-text">20秒</span> 可以記得配方，接著就去面對客人吧！」</p>
-            </div>
-            
-            <button class="my-btn" onclick="startRecipeMemoryStage()">我知道了，開始記配方！</button>
+        <!-- 3. 已完全刪除「抓緊時間！倒數結束後配方會隱藏喔！」這行文字 -->
+        <button class="my-btn" onclick="endMemoryStage()">我記好了，挑戰點餐！</button>
+      </div>
+      <!-- 客人點餐接續階段 -->
+      <div id="p-quiz" class="page">
+        <h2>🛎️ 顧客上門點餐囉</h2>
+        <p>請填入正確咖啡比例（可輸入小數點，如 0.5）：</p>
+        <!-- 顧客 1-->
+        <div id="customer-1" class="customer-box quiz-step">
+          <p style="margin-top: 5px; font-weight: bold;">「我要一杯 <b>卡布奇諾咖啡</b>。」 </p>
+          <!-- 3. 插入圖片 -->
+          <img src="sheep.png" alt="綿羊點餐" class="game-img" style="max-width: 40%; margin: 10px auto; display: block;">
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q1-1" class="quiz-input"> 份濃縮咖啡
+          </div>
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q1-2" class="quiz-input"> 份牛奶
+          </div>
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q1-3" class="quiz-input"> 份奶泡
+          </div>
+          <button class="my-btn" style="margin-top: 10px;" onclick="nextQuizStep(1)">送出配方</button>
         </div>
-
-        <!-- 20秒配方記憶畫面（已根據需求進行局部的文字與圖片修改） -->
-        <div id="p-memory" class="page">
-            <div class="timer-banner">⏳ 剩餘記憶時間：<span id="memory-timer">20</span> 秒</div>
-            <h2>📋 咖啡秘笈</h2> <!-- 1. 已將「皇家咖啡秘笈」改成「咖啡秘笈」 -->
-            
-            <div class="recipe-chart-container">
-                <!-- 2. 已將圖片檔名改為 coffee.png，並刪除了原本的錯誤提示文字 -->
-                <img src="coffee.png" alt="【咖啡配方秘笈大全】" class="game-img">
-                
-                <div class="recipe-list">
-                    ☕ <b>美式</b>：1份濃縮咖啡、6份水<br>
-                    🥛 <b>拿鐵</b>：1份濃縮咖啡、4份牛奶、1份奶泡<br>
-                    ☁️ <b>卡布奇諾</b>：2份濃縮咖啡、2份牛奶、2份奶泡<br>
-                    🍯 <b>焦糖瑪奇朵</b>：2份濃縮咖啡、4份奶泡、1份焦糖<br>
-                    🍫 <b>摩卡</b>：2份濃縮咖啡、2份牛奶、1份巧克力、1份奶泡<br>
-                    🍋 <b>西西里</b>：1份濃縮咖啡、2份水、0.5份檸檬汁、0.5份蜂蜜
-                </div>
-            </div>
-
-            <!-- 3. 已完全刪除「抓緊時間！倒數結束後配方會隱藏喔！」這行文字 -->
-            <button class="my-btn" onclick="endMemoryStage()">我記好了，挑戰點餐！</button>
+        <!-- 顧客 2 -->
+        <div id="customer-2" class="customer-box quiz-step" style="display:none;">
+          <p style="margin-top: 5px; font-weight: bold;">「我要一杯 <b>焦糖瑪奇朵咖啡</b>。」 </p>
+          <!-- 3. 插入小鳥圖片，寬度設為 50% 保持精緻 -->
+          <img src="bird.png" alt="小鳥點餐" class="game-img" style="max-width: 50%; margin: 10px auto; display: block;">
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q2-1" class="quiz-input"> 份濃縮咖啡
+          </div>
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q2-2" class="quiz-input"> 份奶泡
+          </div>
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q2-3" class="quiz-input"> 份焦糖
+          </div>
+          <button class="my-btn" style="margin-top: 10px;" onclick="nextQuizStep(2)">送出配方</button>
         </div>
-
-
-        <!-- 客人點餐接續階段 -->
-        <div id="p-quiz" class="page">
-            <h2>🛎️ 顧客上門點餐囉</h2>
-            <p>請填入正確咖啡比例（可輸入小數點，如 0.5）：</p>
-
-            <!-- 顧客 1-->
-            <div id="customer-1" class="customer-box quiz-step">
-                <p style="margin-top: 5px; font-weight: bold;">「我要一杯<b>卡布奇諾咖啡</b>。」</p>
-                
-                <!-- 3. 插入圖片 -->
-                <img src="sheep.png" alt="綿羊點餐" class="game-img" style="max-width: 40%; margin: 10px auto; display: block;">
-
-                
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q1-1" class="quiz-input"> 份濃縮咖啡
-                </div>
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q1-2" class="quiz-input"> 份牛奶
-                </div>
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q1-3" class="quiz-input"> 份奶泡
-                </div>
-                <button class="my-btn" style="margin-top: 10px;" onclick="nextQuizStep(1)">送出配方</button>
-            </div>
-
-
-
-            <!-- 顧客 2 -->
-            <div id="customer-2" class="customer-box quiz-step" style="display:none;">
-    		<p style="margin-top: 5px; font-weight: bold;">「我要一杯<b>焦糖瑪奇朵咖啡</b>。」</p>
-                <!-- 3. 插入小鳥圖片，寬度設為 50% 保持精緻 -->
-                <img src="bird.png" alt="小鳥點餐" class="game-img" style="max-width: 50%; margin: 10px auto; display: block;">
-                
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q2-1" class="quiz-input"> 份濃縮咖啡
-                </div>
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q2-2" class="quiz-input"> 份奶泡
-                </div>
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q2-3" class="quiz-input"> 份焦糖
-                </div>
-                <button class="my-btn" style="margin-top: 10px;" onclick="nextQuizStep(2)">送出配方</button>
-            </div>
-
-
-            <!-- 顧客 3 -->
-            <div id="customer-3" class="customer-box quiz-step" style="display:none;">
-		<p style="margin-top: 5px; font-weight: bold;">「我要一杯<b>拿鐵咖啡</b>。」</p>
-                
-                <!-- 3. 插入猴子吱吱圖片，寬度設為 50% -->
-                <img src="monkeyZ.png" alt="猴子吱吱點餐" class="game-img" style="max-width: 40%; margin: 10px auto; display: block;">
-                
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q3-1" class="quiz-input"> 份濃縮咖啡
-                </div>
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q3-2" class="quiz-input"> 份牛奶
-                </div>
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q3-3" class="quiz-input"> 份奶泡
-                </div>
-                <button class="my-btn" style="margin-top: 10px;" onclick="nextQuizStep(3)">送出配方</button>
-            </div>
-
-
-		<!-- 顧客 4 -->
-                <div id="customer-4" class="customer-box quiz-step" style="display:none;">
-		<p style="margin-top: 5px; font-weight: bold;">「我要一杯<b>摩卡咖啡</b>。」</p>
-                
-                <!-- 3. 插入猴子曼尼圖片，寬度設為 50% -->
-                <img src="monkeyM.png" alt="猴子曼尼點餐" class="game-img" style="max-width: 40%; margin: 10px auto; display: block;">
-                
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q4-1" class="quiz-input"> 份濃縮咖啡
-                </div>
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q4-2" class="quiz-input"> 份牛奶
-                </div>
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q4-3" class="quiz-input"> 份巧克力
-                </div>
-                <div class="quiz-row">
-                    <input type="number" step="0.5" id="q4-4" class="quiz-input"> 份奶泡
-                </div>
-                <button class="my-btn" style="margin-top: 10px;" onclick="calculateQuizScoreAndTriggerScam()">送出最終配方</button>
-            </div>
-
-
-        <!-- 第一關完成終點與未來銜接點 -->
-        <div id="p-stage1-clear" class="page">
-            <h2>🏆 第一關完成結算</h2>
-            <div class="customer-box" style="background-color: #fffdf0; text-align: center;">
-                <p>調配咖啡收入：<span id="final-quiz-earning" class="highlight-text" style="font-size: 20px;">0</span> 金幣</p>
-                <p id="scam-result-text" style="font-size: 15px; font-weight: bold;"></p>
-                <hr style="border: 0; border-top: 1px dashed #F3cd97; margin: 15px 0;">
-                <p style="font-size: 18px; font-weight: bold; color: #8b5a2b;">
-                    🎉 第一關完成！你目前擁有 <span id="final-total-gold" class="highlight-text" style="font-size: 22px;">150,000</span> 金幣
-                </p>
-            </div>
-            <p style="text-align: center; color: #666;">目前進度：主線理財系統與其餘詐騙任務建置中...</p>
+        <!-- 顧客 3 -->
+        <div id="customer-3" class="customer-box quiz-step" style="display:none;">
+          <p style="margin-top: 5px; font-weight: bold;">「我要一杯 <b>拿鐵咖啡</b>。」 </p>
+          <!-- 3. 插入猴子吱吱圖片，寬度設為 50% -->
+          <img src="monkeyZ.png" alt="猴子吱吱點餐" class="game-img" style="max-width: 40%; margin: 10px auto; display: block;">
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q3-1" class="quiz-input"> 份濃縮咖啡
+          </div>
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q3-2" class="quiz-input"> 份牛奶
+          </div>
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q3-3" class="quiz-input"> 份奶泡
+          </div>
+          <button class="my-btn" style="margin-top: 10px;" onclick="nextQuizStep(3)">送出配方</button>
         </div>
-    </div> <!-- .game-box 結束 -->
-
-    <!-- 滿版強制插播未知來電畫面 -->
-    <div id="scam-phone-overlay" class="scam-overlay">
+        <!-- 顧客 4 -->
+        <div id="customer-4" class="customer-box quiz-step" style="display:none;">
+          <p style="margin-top: 5px; font-weight: bold;">「我要一杯 <b>摩卡咖啡</b>。」 </p>
+          <!-- 3. 插入猴子曼尼圖片，寬度設為 50% -->
+          <img src="monkeyM.png" alt="猴子曼尼點餐" class="game-img" style="max-width: 40%; margin: 10px auto; display: block;">
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q4-1" class="quiz-input"> 份濃縮咖啡
+          </div>
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q4-2" class="quiz-input"> 份牛奶
+          </div>
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q4-3" class="quiz-input"> 份巧克力
+          </div>
+          <div class="quiz-row">
+            <input type="number" step="0.5" id="q4-4" class="quiz-input"> 份奶泡
+          </div>
+          <button class="my-btn" style="margin-top: 10px;" onclick="calculateQuizScoreAndTriggerScam()">送出最終配方</button>
+        </div>
+      </div>
+      <!-- ★資深工程師神救援：補上這行，關閉 p-quiz，畫面就跑出來了！ -->
+      <!-- 第一關完成終點與未來銜接點（直式數學結算版） -->
+      <div id="p-stage1-clear" class="page">
+        <div style="text-align: center; margin-bottom: 25px;">
+          <span class="card-ribbon">🐾 營業結算 🐾</span>
+        </div>
+        <div class="clear-card" style="max-width: 320px; margin: 20px auto; font-family: monospace;">
+          <!-- 直式計算大區塊 -->
+          <div style="text-align: right; padding: 10px 20px; font-size: 18px; line-height: 2;">
+            <!-- 1. 原有資產 -->
+            <div style="display: flex; justify-content: space-between; color: #8b5a2b;">
+              <span>原有資產：</span>
+              <span>150,000</span>
+            </div>
+            <!-- 2. 點餐收入 -->
+            <div style="display: flex; justify-content: space-between; color: #34c759;">
+              <span style="font-size: 14px; color: #8b5a2b;">⚡ 點餐收入 ( <span id="final-quiz-count">0</span>題)： </span>
+              <span>＋ <span id="final-quiz-earning">0</span>
+              </span>
+            </div>
+            <!-- 3. 詐騙扣款 -->
+            <div style="display: flex; justify-content: space-between; color: #bc4f4f; padding-bottom: 10px; border-bottom: 3px solid #8b5a2b;">
+              <span id="scam-summary-label" style="font-size: 14px; color: #8b5a2b;">🛡️ 陌生來電：</span>
+              <span id="scam-gold-display">－0</span>
+            </div>
+            <!-- 4. 最終資產 (等號下方總計) -->
+            <div style="display: flex; justify-content: space-between; font-size: 24px; font-weight: bold; color: #bc4f4f; margin-top: 15px;">
+              <span>＝ 最終資產：</span>
+              <span>
+                <span id="final-total-gold">150,000</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- 溫馨提示與未來過渡點 -->
+        <p style="text-align: center; color: #8b5a2b; font-weight: bold; font-size: 14px; margin-top: 20px;"> 🎉 太棒了！你離成功開設咖啡廳更近一步囉！ </p>
+        <p style="text-align: center; color: #999; font-size: 13px; margin-top: 5px;"> 目前進度：主線理財系統與其餘詐騙任務建置中... </p>
+      </div>
+      <!-- 滿版強制插播未知來電畫面 -->
+      <div id="scam-phone-overlay" class="scam-overlay">
         <div class="phone-container">
-            <div>
-                <div class="caller-id">＋886 912-345-678</div>
-                <div class="caller-location">未知號碼 (海外來電)</div>
+          <div>
+            <div class="caller-id">＋886 912-345-678</div>
+            <div class="caller-location">未知號碼 (海外來電)</div>
+          </div>
+          <div class="phone-actions">
+            <div class="phone-btn-wrapper" onclick="handleScamChoice('decline')">
+              <div class="phone-circle btn-decline">☎</div>
+              <div class="phone-label">拒絕接聽</div>
             </div>
-            
-            <div class="phone-actions">
-                <div class="phone-btn-wrapper" onclick="handleScamChoice('decline')">
-                    <div class="phone-circle btn-decline">☎</div>
-                    <div class="phone-label">拒絕接聽</div>
-                </div>
-                <div class="phone-btn-wrapper" onclick="handleScamChoice('accept')">
-                    <div class="phone-circle btn-accept">📞</div>                    <div class="phone-label">接聽</div>
-                </div>
+            <div class="phone-btn-wrapper" onclick="handleScamChoice('accept')">
+              <div class="phone-circle btn-accept">📞</div>
+              <div class="phone-label">接聽</div>
             </div>
+          </div>
         </div>
-    </div>
-
-    <!-- 詐騙結果回饋彈窗 -->
-    <div id="scam-modal" class="scam-result-modal">
+      </div>
+      <!-- 詐騙結果回饋彈窗 -->
+      <div id="scam-modal" class="scam-result-modal">
         <div class="scam-result-box">
-            <div id="scam-modal-icon" style="font-size: 50px; margin-bottom: 15px;">🚨</div>
-            <h2 id="scam-modal-title" class="scam-result-title">警告</h2>
-            <p id="scam-modal-body" class="scam-result-body"></p>
-            <div id="scam-modal-countdown" class="scam-result-countdown">請稍候...</div>
+          <div id="scam-modal-icon" style="font-size: 50px; margin-bottom: 15px;">🚨</div>
+          <h2 id="scam-modal-title" class="scam-result-title">警告</h2>
+          <p id="scam-modal-body" class="scam-result-body"></p>
+          <div id="scam-modal-countdown" class="scam-result-countdown">請稍候...</div>
         </div>
-    </div>
-
-    <script>
+      </div>
+      <script>
         // --- 原有全域變數 ---
         var player_name = "小朋友";
         var current_gold = 150000;
         var countdown_timeout = null;
         var has_been_scammed_once = false;
-
         // --- 新增全域變數 ---
         var recipe_timer_interval = null;
         var quiz_earned_gold = 0;
         var scam_penalty_gold = 0;
         var scam_detail_message = "";
-
         // --- 原有場景控制函式 ---
         function showPage(pageId) {
-            var allPages = document.getElementsByClassName("page");
-            for (var i = 0; i < allPages.length; i++) {
-                allPages[i].classList.remove("active");
-            }
-            document.getElementById(pageId).classList.add("active");
-            window.scrollTo(0, 0);
+          var allPages = document.getElementsByClassName("page");
+          for (var i = 0; i < allPages.length; i++) {
+            allPages[i].classList.remove("active");
+          }
+          document.getElementById(pageId).classList.add("active");
+          window.scrollTo(0, 0);
         }
-
         // --- 原有暱稱提交邏輯 ---
         function submitNameAndStart() {
-            var inputVal = document.getElementById("name-input").value;
-            if (inputVal.replace(/\s/g, "") === "") {
-                alert("請輸入暱稱喔！別留空。");
-                return;
-            }
-            player_name = inputVal;
-            document.getElementById("stat-name").innerText = player_name;
-            
-            showPage("p3");
+          var inputVal = document.getElementById("name-input").value;
+          if (inputVal.replace(/\s/g, "") === "") {
+            alert("請輸入暱稱喔！別留空。");
+            return;
+          }
+          player_name = inputVal;
+          document.getElementById("stat-name").innerText = player_name;
+          showPage("p3");
         }
-
         // --- 原有偽裝生日處理邏輯 ---
         function clickBirthBox() {
-            document.getElementById("birth-input").blur();
-            has_been_scammed_once = true;
-            
-            showPage("p3-warning");
-            startSilentTimer("warn-btn", "返回");
+          document.getElementById("birth-input").blur();
+          has_been_scammed_once = true;
+          showPage("p3-warning");
+          startSilentTimer("warn-btn", "返回");
         }
 
         function clickRedX() {
-            if (has_been_scammed_once === true) {
-                goToMainGame();
-            } else {
-                document.getElementById("success-headline").innerText = "🎉 太棒了！沒有交出身分訊息！";
-                showPage("p3-success");
-                startSilentTimer("success-btn", "正式進入遊戲");
-            }
+          if (has_been_scammed_once === true) {
+            goToMainGame();
+          } else {
+            document.getElementById("success-headline").innerText = "🎉 太棒了！沒有交出身分訊息！";
+            showPage("p3-success");
+            startSilentTimer("success-btn", "正式進入遊戲");
+          }
         }
 
         function startSilentTimer(buttonId, originalText) {
-            if (countdown_timeout) clearTimeout(countdown_timeout);
-
-            var btn = document.getElementById(buttonId);
-            btn.disabled = true;
-            btn.innerText = originalText;
-
-            countdown_timeout = setTimeout(function() {
-                btn.disabled = false;
-            }, 5000);
+          if (countdown_timeout) clearTimeout(countdown_timeout);
+          var btn = document.getElementById(buttonId);
+          btn.disabled = true;
+          btn.innerText = originalText;
+          countdown_timeout = setTimeout(function() {
+            btn.disabled = false;
+          }, 5000);
         }
 
         function backToPage3() {
-            document.getElementById("birth-input").value = "";
-            showPage("p3");
+          document.getElementById("birth-input").value = "";
+          showPage("p3");
         }
-
         // 銜接點：正式進入遊戲
         function goToMainGame() {
-            document.getElementById("intro-player-name").innerText = player_name;
-            showPage("p-main"); // 切換至第一關故事前導頁
+          document.getElementById("intro-player-name").innerText = player_name;
+          showPage("p-main"); // 切換至第一關故事前導頁
         }
-
         /* ==========================================================================
            以下為新增的第一關核心 JS 互動控制邏輯
            ========================================================================== */
-
         // 啟動 20秒配方記憶階段
         function startRecipeMemoryStage() {
-            showPage("p-memory");
-            var timeLeft = 20;
+          showPage("p-memory");
+          var timeLeft = 20;
+          document.getElementById("memory-timer").innerText = timeLeft;
+          // 啟動倒數計時器
+          recipe_timer_interval = setInterval(function() {
+            timeLeft--;
             document.getElementById("memory-timer").innerText = timeLeft;
-
-            // 啟動倒數計時器
-            recipe_timer_interval = setInterval(function() {
-                timeLeft--;
-                document.getElementById("memory-timer").innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    endMemoryStage();
-                }
-            }, 1000);
+            if (timeLeft <= 0) {
+              endMemoryStage();
+            }
+          }, 1000);
         }
-
         // 結束記憶階段，進入點餐
         function endMemoryStage() {
-            if (recipe_timer_interval) {
-                clearInterval(recipe_timer_interval);
-            }
-            showPage("p-quiz");
-            // 初始化只顯示第一個客人的題目
-            document.getElementById("customer-1").style.display = "block";
-            document.getElementById("customer-2").style.display = "none";
-            document.getElementById("customer-3").style.display = "none";
-            document.getElementById("customer-4").style.display = "none";
+          if (recipe_timer_interval) {
+            clearInterval(recipe_timer_interval);
+          }
+          showPage("p-quiz");
+          // 初始化只顯示第一個客人的題目
+          document.getElementById("customer-1").style.display = "block";
+          document.getElementById("customer-2").style.display = "none";
+          document.getElementById("customer-3").style.display = "none";
+          document.getElementById("customer-4").style.display = "none";
         }
-
         // 接續式控制：切換下一位客人
         function nextQuizStep(currentStep) {
-            if (currentStep === 1) {
-                if(document.getElementById("q1-1").value === "" || document.getElementById("q1-2").value === "" || document.getElementById("q1-3").value === "") {
-                    alert("請幫綿羊咩咩調配好配方再送出喔！"); return;
-                }
-                document.getElementById("customer-1").style.display = "none";
-                document.getElementById("customer-2").style.display = "block";
-            } else if (currentStep === 2) {
-                if(document.getElementById("q2-1").value === "" || document.getElementById("q2-2").value === "" || document.getElementById("q2-3").value === "") {
-                    alert("請幫小鳥啾啾調配好配方再送出喔！"); return;
-                }
-                document.getElementById("customer-2").style.display = "none";
-                document.getElementById("customer-3").style.display = "block";
-            } else if (currentStep === 3) {
-                if(document.getElementById("q3-1").value === "" || document.getElementById("q3-2").value === "" || document.getElementById("q3-3").value === "") {
-                    alert("請幫猴子吱吱調配好配方再送出喔！"); return;
-                }
-                document.getElementById("customer-3").style.display = "none";
-                document.getElementById("customer-4").style.display = "block";
+          if (currentStep === 1) {
+            if (document.getElementById("q1-1").value === "" || document.getElementById("q1-2").value === "" || document.getElementById("q1-3").value === "") {
+              alert("請幫綿羊咩咩調配好配方再送出喔！");
+              return;
             }
+            document.getElementById("customer-1").style.display = "none";
+            document.getElementById("customer-2").style.display = "block";
+          } else if (currentStep === 2) {
+            if (document.getElementById("q2-1").value === "" || document.getElementById("q2-2").value === "" || document.getElementById("q2-3").value === "") {
+              alert("請幫小鳥啾啾調配好配方再送出喔！");
+              return;
+            }
+            document.getElementById("customer-2").style.display = "none";
+            document.getElementById("customer-3").style.display = "block";
+          } else if (currentStep === 3) {
+            if (document.getElementById("q3-1").value === "" || document.getElementById("q3-2").value === "" || document.getElementById("q3-3").value === "") {
+              alert("請幫猴子吱吱調配好配方再送出喔！");
+              return;
+            }
+            document.getElementById("customer-3").style.display = "none";
+            document.getElementById("customer-4").style.display = "block";
+          }
         }
-
         // 第四位客人交出後：背後算分並強制插播未知來電
         function calculateQuizScoreAndTriggerScam() {
-            if(document.getElementById("q4-1").value === "" || document.getElementById("q4-2").value === "" || document.getElementById("q4-3").value === "" || document.getElementById("q4-4").value === "") {
-                alert("請幫猴子曼尼調配好配方再送出喔！"); return;
-            }
-
-            quiz_earned_gold = 0; // 重置答題累加金幣
-
-            // 題1驗證：卡布奇諾 (2, 2, 2)
-            var q1_1 = parseFloat(document.getElementById("q1-1").value);
-            var q1_2 = parseFloat(document.getElementById("q1-2").value);
-            var q1_3 = parseFloat(document.getElementById("q1-3").value);
-            if (q1_1 === 2 && q1_2 === 2 && q1_3 === 2) quiz_earned_gold += 80000;
-
-            // 題2驗證：焦糖瑪奇朵 (2, 4, 1)
-            var q2_1 = parseFloat(document.getElementById("q2-1").value);
-            var q2_2 = parseFloat(document.getElementById("q2-2").value);
-            var q2_3 = parseFloat(document.getElementById("q2-3").value);
-            if (q2_1 === 2 && q2_2 === 4 && q2_3 === 1) quiz_earned_gold += 80000;
-
-            // 題3驗證：拿鐵 (1, 4, 1)
-            var q3_1 = parseFloat(document.getElementById("q3-1").value);
-            var q3_2 = parseFloat(document.getElementById("q3-2").value);
-            var q3_3 = parseFloat(document.getElementById("q3-3").value);
-            if (q3_1 === 1 && q3_2 === 4 && q3_3 === 1) quiz_earned_gold += 80000;
-
-            // 題4驗證：摩卡 (2, 2, 1, 1)
-            var q4_1 = parseFloat(document.getElementById("q4-1").value);
-            var q4_2 = parseFloat(document.getElementById("q4-2").value);
-            var q4_3 = parseFloat(document.getElementById("q4-3").value);
-            var q4_4 = parseFloat(document.getElementById("q4-4").value);
-            if (q4_1 === 2 && q4_2 === 2 && q4_3 === 1 && q4_4 === 1) quiz_earned_gold += 80000;
-
-            // 系統先不出分，立即強制插播滿版未知海外來電
-            document.getElementById("scam-phone-overlay").style.display = "flex";
+          if (document.getElementById("q4-1").value === "" || document.getElementById("q4-2").value === "" || document.getElementById("q4-3").value === "" || document.getElementById("q4-4").value === "") {
+            alert("請幫猴子曼尼調配好配方再送出喔！");
+            return;
+          }
+          quiz_earned_gold = 0; // 重置答題累加金幣
+          // 題1驗證：卡布奇諾 (2, 2, 2)
+          var q1_1 = parseFloat(document.getElementById("q1-1").value);
+          var q1_2 = parseFloat(document.getElementById("q1-2").value);
+          var q1_3 = parseFloat(document.getElementById("q1-3").value);
+          if (q1_1 === 2 && q1_2 === 2 && q1_3 === 2) quiz_earned_gold += 60000;
+          // 題2驗證：焦糖瑪奇朵 (2, 4, 1)
+          var q2_1 = parseFloat(document.getElementById("q2-1").value);
+          var q2_2 = parseFloat(document.getElementById("q2-2").value);
+          var q2_3 = parseFloat(document.getElementById("q2-3").value);
+          if (q2_1 === 2 && q2_2 === 4 && q2_3 === 1) quiz_earned_gold += 60000;
+          // 題3驗證：拿鐵 (1, 4, 1)
+          var q3_1 = parseFloat(document.getElementById("q3-1").value);
+          var q3_2 = parseFloat(document.getElementById("q3-2").value);
+          var q3_3 = parseFloat(document.getElementById("q3-3").value);
+          if (q3_1 === 1 && q3_2 === 4 && q3_3 === 1) quiz_earned_gold += 60000;
+          // 題4驗證：摩卡 (2, 2, 1, 1)
+          var q4_1 = parseFloat(document.getElementById("q4-1").value);
+          var q4_2 = parseFloat(document.getElementById("q4-2").value);
+          var q4_3 = parseFloat(document.getElementById("q4-3").value);
+          var q4_4 = parseFloat(document.getElementById("q4-4").value);
+          if (q4_1 === 2 && q4_2 === 2 && q4_3 === 1 && q4_4 === 1) quiz_earned_gold += 60000;
+          // 系統先不出分，立即強制插播滿版未知海外來電
+          document.getElementById("scam-phone-overlay").style.display = "flex";
         }
-
         // 處理來電抉擇 (情境 A 接聽 / 情境 B 掛斷)
         function handleScamChoice(choice) {
-            var modal = document.getElementById("scam-modal");
-            var mIcon = document.getElementById("scam-modal-icon");
-            var mTitle = document.getElementById("scam-modal-title");
-            var mBody = document.getElementById("scam-modal-body");
-            var mCountdown = document.getElementById("scam-modal-countdown");
-
-            if (choice === 'accept') {
-                // 情境 A：接聽不明來電 (扣 20000)
-                scam_penalty_gold = -20000;
-                scam_detail_message = "❌ 不明來電扣除 20,000 金幣！";
-                
-                mIcon.innerText = "🚨";
-                mTitle.innerText = "不可以接不明來電！";
-                mTitle.style.color = "#bc4f4f";
-                mBody.innerHTML = "接通不明電話可能導致個資標記轉賣。<br><br>🚨 警報：<span style='color:#bc4f4f; font-weight:bold;'>你被騙走 2 萬金幣！</span>";
+          var modal = document.getElementById("scam-modal");
+          var mIcon = document.getElementById("scam-modal-icon");
+          var mTitle = document.getElementById("scam-modal-title");
+          var mBody = document.getElementById("scam-modal-body");
+          var mCountdown = document.getElementById("scam-modal-countdown");
+          if (choice === 'accept') { // 修正：常數/字串 accept 需加上引號
+            // 情境 A：接聽不明來電 (扣 20000)
+            scam_penalty_gold = -20000;
+            scam_detail_message = "❌ 不明來電扣除 20,000 金幣！";
+            mIcon.innerText = "🚨";
+            mTitle.innerText = "不可以接不明來電！";
+            mTitle.style.color = "#bc4f4f";
+            mBody.innerHTML = `
+        
+																																		<div style="text-align: center;">
+            接通不明電話，可能導致個資標記轉賣。
+																																			<br>
+																																				<br>
+            🚨 警報：
+																																					<span style="color:#bc4f4f; font-weight:bold;">你被騙走 2 萬金幣！</span>
+																																				</div>
+    `;
+          } else {
+            // 情境 B：掛斷不明來電 (守住)
+            scam_penalty_gold = 0;
+            scam_detail_message = "✅ 成功守住 20,000 金幣！";
+            mIcon.innerText = "🛡️";
+            mTitle.innerText = "好棒！防詐成功！";
+            mTitle.style.color = "#34c759";
+            mBody.innerHTML = `
+        
+																																				<div style="text-align: center;">
+            接聽不明電話，可能導致個資標記轉賣。
+																																					<br>
+																																						<br>
+            ✨ 讚賞：
+																																							<span style="color:#34c759; font-weight:bold;">你守住了 2 萬金幣！</span>
+																																						</div>
+    `;
+          }
+          // 確保標題與圖示也能置中（若原本沒有置中的話）
+          mTitle.style.textAlign = "center";
+          if (typeof mIcon !== 'undefined') mIcon.style.textAlign = "center";
+          // 彈出強制倒數提示窗，並關閉底層來電畫面
+          document.getElementById("scam-phone-overlay").style.display = "none";
+          modal.style.display = "flex";
+          // 強制顯示 5 秒倒數控制
+          var secLeft = 5;
+          mCountdown.innerText = "畫面鎖定中... (" + secLeft + "秒)";
+          var modalInterval = setInterval(function() {
+            secLeft--;
+            if (secLeft > 0) {
+              mCountdown.innerText = "畫面鎖定中... (" + secLeft + "秒)";
             } else {
-                // 情境 B：掛斷不明來電 (守住)
-                scam_penalty_gold = 0;
-                scam_detail_message = "✅ 成功守住 20,000 金幣！";
-
-                mIcon.innerText = "🛡️";
-                mTitle.innerText = "好棒！防詐成功！";
-                mTitle.style.color = "#34c759";
-                mBody.innerHTML = "不可接聽開頭帶有＋號的陌生來電，可能導致個資外洩。<br><br>✨ 讚賞：<span style='color:#34c759; font-weight:bold;'>你守住了 2 萬金幣！</span>";
+              clearInterval(modalInterval);
+              modal.style.display = "none";
+              finishStage1AndRefreshGold(); // 5秒結束，回到主線更新金幣
             }
-
-            // 彈出強制倒數提示窗，並關閉底層來電畫面
-            document.getElementById("scam-phone-overlay").style.display = "none";
-            modal.style.display = "flex";
-
-            // 強制顯示 5 秒倒數控制
-            var secLeft = 5;
-            mCountdown.innerText = "畫面鎖定中... (" + secLeft + "秒)";
-            
-            var modalInterval = setInterval(function() {
-                secLeft--;
-                if (secLeft > 0) {
-                    mCountdown.innerText = "畫面鎖定中... (" + secLeft + "秒)";
-                } else {
-                    clearInterval(modalInterval);
-                    modal.style.display = "none";
-                    finishStage1AndRefreshGold(); // 5秒結束，回到主線更新金幣
-                }
-            }, 1000);
+          }, 1000);
         }
-
-        // 最終回到主線：更新金幣，顯示第一關通關結算
+        // 最終回到主線：更新金幣，顯示第一關通關結算（直式數學記帳版）
         function finishStage1AndRefreshGold() {
-            // 金幣最終公式： 150000 + 答題金幣 + 詐騙金幣(可能為 -20000)            // 金幣最終公式： 150000 + 答題金幣 + 詐騙金幣(可能為 -20000)
-            current_gold = 150000 + quiz_earned_gold + scam_penalty_gold;
-
-            // 更新左上方看板金幣數值
-            document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
-
-            // 渲染通關結算頁面數據
-            document.getElementById("final-quiz-earning").innerText = quiz_earned_gold;
-            document.getElementById("scam-result-text").innerText = scam_detail_message;
-            if (scam_penalty_gold < 0) {
-                document.getElementById("scam-result-text").style.color = "#bc4f4f";
-            } else {
-                document.getElementById("scam-result-text").style.color = "#34c759";
-            }
-            document.getElementById("final-total-gold").innerText = current_gold.toLocaleString();
-
-            // 跳轉至第一關落幕頁面
-            showPage("p-stage1-clear");
+          // 金幣最終公式：150000 + 答題金幣 + 詐騙金幣
+          current_gold = 150000 + quiz_earned_gold + scam_penalty_gold;
+          // 更新左上方畫面的狀態看板金幣數值
+          document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
+          // 1. 填入答對題數與獲得金幣（直式第二行）
+          var correctCount = quiz_earned_gold / 80000;
+          document.getElementById("final-quiz-count").innerText = correctCount;
+          document.getElementById("final-quiz-earning").innerText = quiz_earned_gold.toLocaleString();
+          // 2. 判斷詐騙關卡是扣錢還是守住，並動態調整直式的正負號與顏色（直式第三行）
+          var scamLabelEl = document.getElementById("scam-summary-label");
+          var scamDisplayEl = document.getElementById("scam-gold-display");
+          if (scam_penalty_gold < 0) {
+            scamLabelEl.innerText = "🚨 海外來電 (被騙)：";
+            scamLabelEl.style.color = "#bc4f4f";
+            scamDisplayEl.innerText = "－" + Math.abs(scam_penalty_gold).toLocaleString();
+            scamDisplayEl.parentElement.style.color = "#bc4f4f";
+          } else {
+            scamLabelEl.innerText = "🛡️ 海外來電 (安全)：";
+            scamLabelEl.style.color = "#34c759";
+            scamDisplayEl.innerText = "＋" + scam_penalty_gold.toLocaleString();
+            scamDisplayEl.parentElement.style.color = "#34c759";
+          }
+          // 3. 填入總計公式加總後的最後總金額（直式第四行）
+          document.getElementById("final-total-gold").innerText = current_gold.toLocaleString();
+          // 切換並開啟第一關落幕結算頁面
+          showPage("p-stage1-clear");
         }
-    </script>
-</body>
+      </script>
+  </body>
 </html>
-
-
-
