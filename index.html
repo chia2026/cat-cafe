@@ -493,6 +493,97 @@
         color: #e98b50;
         margin: 5px 0;
       }
+      /* ==========================================================================
+           以下為【第二關】額外擴充美化樣式
+         ========================================================================== */
+      /* 喜慶風中獎詐騙彈窗專用 */
+      .lucky-scam-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 10005;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .lucky-scam-box {
+        width: 100%;
+        max-width: 360px;
+        background: linear-gradient(135deg, #ff4d4d 0%, #cc0000 100%);
+        border: 5px solid #ffe600;
+        border-radius: 24px;
+        padding: 30px 20px 20px 20px;
+        box-sizing: border-box;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(204, 0, 0, 0.5);
+        color: #fff;
+      }
+
+      .lucky-title {
+        font-size: 32px;
+        font-weight: bold;
+        color: #ffe600;
+        margin: 0 0 10px 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        letter-spacing: 2px;
+      }
+
+      .lucky-white-x {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+        padding: 6px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .lucky-white-x:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* 百貨公司購物列表元件 */
+      .mall-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .mall-item {
+        background: #fffdf0;
+        border: 2px solid #f3cd97;
+        border-radius: 12px;
+        padding: 12px 8px;
+        text-align: center;
+        font-weight: bold;
+        color: #8b5a2b;
+        font-size: 14px;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s;
+      }
+
+      .mall-item.selected {
+        background: #e98b50;
+        color: white;
+        border-color: #b35f2b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(233, 139, 80, 0.2);
+      }
     </style>
   </head>
   <body>
@@ -665,7 +756,7 @@
               <span id="scam-gold-display">－0</span>
             </div>
             <!-- 4. 最終資產 (等號下方總計) -->
-            <div style="display: flex; justify-content: space-between; font-size: 24px; font-weight: bold; color: #bc4f4f; margin-top: 15px;">
+            <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #bc4f4f; margin-top: 15px;">
               <span>＝ 最終資產：</span>
               <span>
                 <span id="final-total-gold">150,000</span>
@@ -675,9 +766,330 @@
         </div>
         <!-- 溫馨提示與未來過渡點 -->
         <p style="text-align: center; color: #8b5a2b; font-weight: bold; font-size: 14px; margin-top: 20px;"> 🎉 太棒了！你離成功開設咖啡廳更近一步囉！ </p>
-        <p style="text-align: center; color: #999; font-size: 13px; margin-top: 5px;"> 目前進度：主線理財系統與其餘詐騙任務建置中... </p>
+                <button class="my-btn" style="margin-top: 15px;" onclick="goToLevelTwo()">下一步：繼續前進</button>
       </div>
+
+        <div id="p-l2-story" class="page">
+        <h2>🐾 第二關：分配與犒賞</h2>
+        <div class="customer-box">
+          <div class="customer-title">🦁 咖啡大獅：</div>
+          <p>「哎呀！『<span class="l2-player-name"></span>』真是努力呀！記得吃飯喔！」</p>
+        </div>
+        <div class="customer-box" style="background-color: #fffdf0;">
+          <div class="customer-title">👤 <span class="l2-player-name"></span>：</div>
+          <p>「收到薪水要先分配，滿足需求才有力氣完成夢想。好想買個東西犒賞自己喔！可是還要存錢！」</p>
+        </div>
+        <button class="my-btn" onclick="triggerLevelTwoScam()">繼續前進</button>
+      </div>
+
+
+
+        <div id="p-l2-bank" class="page">
+        <h2>🏦 順路經過銀行</h2>
+        
+        <!-- ✨ 這裡已成功在標題下方插入 Bank.png 照片，完美置中並帶有圓角與精緻立體陰影 -->
+        <div style="text-align: center; margin: 15px auto;">
+          <img src="Bank.png" alt="銀行" style="max-width: 50%; height: auto; border-radius: 16px; box-shadow: 0 6px 12px rgba(139, 90, 43, 0.2);">
+        </div>
+
+        <div class="customer-box">
+          <div class="customer-title">🤵 銀行專員：</div>
+          <p>「目前有推出政府核准的勞工醫療保險，需要 <span class="highlight-text">5萬</span> 金幣，請問需要購買嗎？」</p>
+        </div>
+        <button class="my-btn" onclick="buyInsurance(true)">是，我要購買（扣除5萬金幣）</button>
+        <button class="my-btn" style="background-color: #bc4f4f;" onclick="buyInsurance(false)">否，不用了</button>
+      </div>
+
+
+      <div id="p-l2-mall" class="page">
+        <h2>🛍️ 進入百貨公司購物</h2>
+        <p style="font-weight: bold; color: #8b5a2b; font-size: 15px;">若要購買以下商品，請點擊文字：</p>
+        
+        <div class="mall-container">
+          <div class="mall-item" id="item-dinner" onclick="toggleMallItem('dinner', 20000)">🌾 晚餐食材<br>20,000</div>
+          <div class="mall-item" id="item-beans" onclick="toggleMallItem('beans', 10000)">🥔 咖啡豆<br>10,000</div>
+          <div class="mall-item" id="item-mug" onclick="toggleMallItem('mug', 10000)">☕ 店用馬克杯<br>10,000</div>
+          <div class="mall-item" id="item-pot" onclick="toggleMallItem('pot', 10000)">🛒 咖啡濾壺<br>10,000</div>
+          <div class="mall-item" id="item-toy1" onclick="toggleMallItem('toy1', 5000)">🎇 絕版戰鬥陀螺<br>5,000</div>
+          <div class="mall-item" id="item-toy2" onclick="toggleMallItem('toy2', 5000)">🎴 限量怪獸卡牌<br>5,000</div>
+          <div class="mall-item" id="item-toy3" onclick="toggleMallItem('toy3', 5000)">🖊 偶像親簽專輯<br>5,000</div>
+          <div class="mall-item" id="item-toy4" onclick="toggleMallItem('toy4', 5000)">🧸 可愛娃娃<br>5,000</div>
+        </div>
+
+        <p style="font-size: 15px; font-weight: bold; text-align: right; color:#e98b50;">當前已選總計：<span id="mall-total-cost">0</span> 金幣</p>
+        <button class="my-btn" id="mall-checkout-btn" onclick="checkoutMall()" disabled>確認購買</button>
+      </div>
+
+      <!-- 重新設計：精準套用色號 FEF2A0、F3CD97 與 E98B50 的全動態中獎彈窗 -->
+      <div id="lucky-scam-modal" class="lucky-scam-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10005; justify-content: center; align-items: center;">
+        
+        <!-- 純網頁動態特效注入（嚴格採用指定色號） -->
+        <style>
+          @keyframes rotateScamBg { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+          @keyframes coinScamJump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+          @keyframes confettiScamFall { 0% { transform: translateY(-50px) rotate(0deg); opacity: 1; } 100% { transform: translateY(250px) rotate(360deg); opacity: 0; } }
+          @keyframes pulseScamBtn { 0%, 100% { transform: scale(1); box-shadow: 0 4px 10px rgba(233,139,80,0.3); } 50% { transform: scale(1.03); box-shadow: 0 6px 20px rgba(233,139,80,0.7); } }
+          /* 使用 FEF2A0 與 F3CD97 組成的放射狀旋轉背景 */
+          .scam-ray-bg { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: repeating-conic-gradient(#FEF2A0 0deg 15deg, #F3CD97 15deg 30deg); opacity: 0.9; animation: rotateScamBg 20s linear infinite; z-index: 1; }
+          .scam-confetti { position: absolute; width: 7px; height: 11px; background: #fff; border-radius: 2px; animation: confettiScamFall 2.5s linear infinite; z-index: 2; }
+          .scam-coin-hero { font-size: 70px; position: relative; z-index: 3; animation: coinScamJump 2s ease-in-out infinite; margin-top: 15px; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.15)); text-align: center; }
+        </style>
+
+        <!-- 卡片主體容器 -->
+        <div class="lucky-scam-box" style="background: white; width: 330px; border-radius: 16px; overflow: visible; box-shadow: 0 15px 30px rgba(0,0,0,0.3); position: relative; border: none; padding: 0;">
+          
+          <!-- 上半部：由指定黃色系組成的放射背景 -->
+          <div style="background: #F3CD97; height: 170px; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; border-top-left-radius: 16px; border-top-right-radius: 16px;">
+            <div class="scam-ray-bg"></div>
+            <!-- 彩帶飄落效果 -->
+            <div class="scam-confetti" style="left: 15%; top: 10%; background: #fffdf0; animation-delay: 0s;"></div>
+            <div class="scam-confetti" style="left: 45%; top: -5%; background: #fff; animation-delay: 0.5s; width: 11px;"></div>
+            <div class="scam-confetti" style="left: 80%; top: 5%; background: #E98B50; animation-delay: 1.2s;"></div>
+            <div class="scam-confetti" style="left: 70%; top: -10%; background: #F3CD97; animation-delay: 0.8s;"></div>
+            
+            <!-- 中央主角：彩球與錢袋組合 -->
+            <div class="scam-coin-hero">🎊💰🎊</div>
+          </div>
+
+          <!-- 下半部：白底文案、輸入框與指定色號按鈕區 -->
+          <div style="padding: 25px 20px; text-align: center; background: white; position: relative; z-index: 4; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+            <h2 style="color: #E98B50; font-size: 26px; font-weight: bold; margin: 0 0 5px 0; letter-spacing: 2px;">恭喜！</h2>
+            <p style="font-size: 15px; color: #444; font-weight: bold; margin: 0 0 10px 0;">
+              恭喜抽中 <span style="color: #bc4f4f; font-size: 18px;">5 萬</span> 活動金幣大獎！
+            </p>
+            <p style="font-size: 13px; color: #777; margin: 0 0 15px 0; font-weight: bold;">請輸入銀行帳號領取金幣：</p>
+            
+            <!-- 原汁原味保留帳號輸入框 -->
+            <input type="text" id="lucky-bank-input" placeholder="請輸入您的銀行帳號" style="width: 100%; padding: 12px; font-size: 16px; box-sizing: border-box; margin-bottom: 15px; border: 2px solid #F3CD97; border-radius: 8px; text-align: center; color: #8b5a2b; font-weight: bold; background-color: #fffdf0;">
+            
+            <!-- ✨ 領取金幣大按鈕：色號精準設定為 E98B50 呼吸發光動態 -->
+            <button class="my-btn" style="background: #E98B50; color: white; border: none; border-radius: 8px; padding: 12px 0; font-size: 18px; font-weight: bold; width: 100%; cursor: pointer; margin-bottom: 5px; box-shadow: 0 4px 10px rgba(233,139,80,0.3); animation: pulseScamBtn 2s infinite;" onclick="submitLuckyAccount()">
+              領取金幣
+            </button>
+          </div>
+
+          <!-- 最底部的白色圓形透明打叉關閉按鈕 -->
+          <div style="position: absolute; bottom: -75px; left: 50%; transform: translateX(-50%); z-index: 10010;">
+            <button style="width: 46px; height: 46px; border-radius: 50%; border: 2px solid white; background: rgba(0,0,0,0.5); color: white; font-size: 22px; font-weight: normal; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); line-height: 1;" onclick="closeLuckyScam()">✕</button>
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <!-- 第二關通關結算畫面（直式數學結算版） -->
+      <div id="p-stage2-clear" class="page">
+        <div style="text-align: center; margin-bottom: 25px;">
+          <span class="card-ribbon">🐾 購物結算 🐾</span>
+        </div>
+        <div class="clear-card" style="max-width: 320px; margin: 20px auto; font-family: monospace;">
+          <!-- 直式計算大區塊 -->
+          <div style="text-align: right; padding: 10px 20px; font-size: 18px; line-height: 2;">
+            <!-- 1. 第一關結算資產 -->
+            <div style="display: flex; justify-content: space-between; color: #8b5a2b;">
+              <span>第一關剩餘資產：</span>
+              <span id="l2-start-gold">0</span>
+            </div>
+            <!-- 2. 中獎詐騙影響 -->
+            <div style="display: flex; justify-content: space-between;" id="l2-scam-row">
+              <span style="font-size: 14px; color: #8b5a2b;" id="l2-scam-label">🎁 中獎詐騙：</span>
+              <span id="l2-scam-display">±0</span>
+            </div>
+            <!-- 3. 保險花費 -->
+            <div style="display: flex; justify-content: space-between; color: #bc4f4f;" id="l2-insurance-row">
+              <span style="font-size: 14px; color: #8b5a2b;">📝 購買勞工保險：</span>
+              <span id="l2-insurance-display">－0</span>
+            </div>
+            <!-- 4. 百貨購物花費 -->
+            <div style="display: flex; justify-content: space-between; color: #bc4f4f;">
+              <span style="font-size: 14px; color: #8b5a2b;">🛍️ 百貨購物花費：</span>
+              <span id="l2-mall-display">－0</span>
+            </div>
+            <!-- 5. 意外意外受傷醫療費 -->
+            <div style="display: flex; justify-content: space-between; color: #bc4f4f; padding-bottom: 10px; border-bottom: 3px solid #8b5a2b;" id="l2-accident-row">
+              <span style="font-size: 14px; color: #8b5a2b;" id="l2-accident-label">🚑 騎車摔傷醫療費：</span>
+              <span id="l2-accident-display">－0</span>
+            </div>
+            <!-- 6. 最終存入銀行存款 (等號下方總計) -->
+            <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #bc4f4f; margin-top: 15px;">
+              <span>＝ 銀行總存款：</span>
+              <span><span id="l2-final-savings">0</span></span>
+            </div>
+          </div>
+        </div>
+        <!-- 溫馨提示與未來過渡點 -->
+        <p style="text-align: center; color: #8b5a2b; font-weight: bold; font-size: 15px; margin-top: 20px; padding: 0 10px;"> 
+          💰 太棒了！你目前手頭上的金幣已經安全轉存為銀行存款囉！
+        </p>
+        <button class="my-btn" style="margin-top: 15px;" onclick="startLevelThreePage()">下一關：前進第三關</button>
+      </div>
+      <!-- 畫面：第三關開頭對話 -->
+      <div id="p-l3-story" class="page">
+        <h2>☕ 第三關：圓夢的最後一哩路</h2>
+        <div class="customer-box" style="background-color: #fffdf0;">
+          <div class="customer-title">👤 <span class="l2-player-name"></span>：</div>
+          <p>「雖然有存款，但是還需要皇家咖啡機呀！還有甚麼方法可以幫我快點存錢買咖啡機呢？」</p>
+        </div>
+        <div class="customer-box">
+          <div class="customer-title">🤵 銀行專員：</div>
+          <p>「如果能判讀金融資訊，從存款拿出 <span class="highlight-text">10萬</span> 做一些投資，應該就能買下咖啡機！」</p>
+        </div>
+        <button class="my-btn" onclick="deductForInvestment()">拿出10萬準備投資</button>
+      </div>
+
+      <!-- 畫面：第三關投資環節 -->
+      <div id="p-l3-invest" class="page">
+        <h2>📰 財經日報資訊</h2>
+        <div class="customer-box" style="background-color: #fffdf0; border: 2px solid #e98b50;">
+          <p style="font-size: 14px; margin: 0; line-height: 1.8;">
+            <b>【報紙內容】</b><br>
+            美國聯準會預測明年度亞洲國家景氣轉弱，各國中央銀行會考慮降息因應。接著因為目前國際禽流感盛行，國內食品業需要加強防疫措施。最後，歐洲市場基本需求不減，截稿前採購還未中斷。
+          </p>
+        </div>
+        
+        <p style="font-weight: bold; color: #8b5a2b; font-size: 14px; margin-bottom: 5px;">
+          請分配合計 <span class="highlight-text">10</span> 萬元的投資（只能填整數）：
+        </p>
+
+        <div class="customer-box" style="padding: 10px; margin-bottom: 10px;">
+          <div style="font-size: 14px; font-weight: bold;">🌾 A公司 (農場肉品牛奶蛋，利潤低)</div>
+          <div class="quiz-row" style="margin: 5px 0;">
+            投資 <input type="number" id="invest-a" class="quiz-input" min="0" max="10" value="0"> 萬元
+          </div>
+        </div>
+
+        <div class="customer-box" style="padding: 10px; margin-bottom: 10px;">
+          <div style="font-size: 14px; font-weight: bold;">💻 B公司 (電子材料出口，風阻高利潤最高)</div>
+          <div class="quiz-row" style="margin: 5px 0;">
+            投資 <input type="number" id="invest-b" class="quiz-input" min="0" max="10" value="0"> 萬元 
+          </div>
+        </div>
+
+        <div class="customer-box" style="padding: 10px; margin-bottom: 10px;">
+          <div style="font-size: 14px; font-weight: bold;">🏦 C公司 (存放款業務賺利息，景氣差大虧)</div>
+          <div class="quiz-row" style="margin: 5px 0;">
+            投資 <input type="number" id="invest-c" class="quiz-input" min="0" max="10" value="0"> 萬元
+          </div>
+        </div>
+
+        <button class="my-btn" onclick="submitInvestment()">確認送出投資分配</button>
+      </div>
+
+      <!-- 畫面：最後走進百貨公司 -->
+      <div id="p-l3-mall" class="page">
+        <h2>🏪 百貨公司皇家專櫃</h2>
+        <img src="coffee-machine.png" alt="Royal Coffee Machine" class="game-img" style="max-width: 50%;">
+        <div class="customer-box" style="text-align: center;">
+          <div class="customer-title">🏪 百貨專員：</div>
+          <p style="font-weight: bold; font-size: 18px; margin: 5px 0;">「請問需要購買皇家咖啡機嗎？」</p>
+          <p style="color: #666; font-size: 14px;">(價格：50,000 金幣)</p>
+        </div>
+        <button class="my-btn" onclick="buyRoyalMachine(true)">是，我要買下一臺皇家咖啡機</button>
+        <button class="my-btn" style="background-color: #bc4f4f;" onclick="buyRoyalMachine(false)">否，我不買</button>
+      </div>
+
+      <!-- 畫面：最終大結局成績結算單 -->
+      <div id="p-stage3-clear" class="page">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <span class="card-ribbon" id="game-result-ribbon">🐾 最終成果結算 🐾</span>
+        </div>
+        
+        <h2 id="game-final-title" style="font-size: 26px; margin-bottom: 10px;">結算中...</h2>
+
+        <div class="clear-card" style="max-width: 320px; margin: 15px auto; font-family: monospace;">
+          <div style="text-align: right; padding: 5px 15px; font-size: 16px; line-height: 1.8;">
+            <div style="display: flex; justify-content: space-between; color: #8b5a2b;">
+              <span>剩餘金幣數 (投資前)：</span>
+              <span id="end-gold-a">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #34c759;" id="row-l3-scam">
+              <span>🛍️ 購物詐騙影響：</span>
+              <span id="end-l3-scam">±0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #34c759;">
+              <span>📈 投資回報總金額：</span>
+              <span id="end-invest-return">＋0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #34c759;">
+              <span>💰 存款活期利息 (5%)：</span>
+              <span id="end-interest-val">＋0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #bc4f4f;" id="row-royal-buy">
+              <span>👑 購買皇家咖啡機：</span>
+              <span id="end-royal-cost">－0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #e98b50; margin-top: 10px; padding-top: 5px; border-top: 2px dashed #8b5a2b;">
+              <span>💸 最終擁有金幣：</span>
+              <span id="end-final-gold">0</span>
+            </div>
+          </div>
+        </div>
+
+          <div class="customer-box" id="game-evaluation-box" style="background-color: #fffdf0; text-align: center; font-weight: bold;">
+          <!-- 評價文字 -->
+        </div>
+        
+        <button class="my-btn" onclick="location.reload()">再玩一次 🔄</button>
+      </div>
+
+      <!-- 插入購物詐騙的喜慶風 Modal 彈窗 -->
+      <div id="l3-scam-modal" class="lucky-scam-modal">
+        <div class="lucky-scam-box" style="background: linear-gradient(135deg, #ff9900 0%, #ff5500 100%);">
+          <div class="lucky-title" style="font-size: 28px; color: #fff;">⚡ 限時特賣 ⚡</div>
+          <p style="font-size: 18px; font-weight: bold; color: #ffe600; margin: 10px 0;">皇家咖啡機現正特價！</p>
+          <p style="font-size: 14px; margin-bottom: 5px; color: #fff;">市價 5 萬，現正下殺只要 <span style="font-size: 20px; color:#ffe600; font-weight:bold;">1 萬</span>！</p>
+          <p style="font-size: 12px; color: #ffebcd; margin-bottom: 15px;">⏳ 限量秒殺・限時 1 分鐘！</p>
+          <button class="my-btn" style="background-color: #ffe600; color: #cc0000; font-size: 16px; margin-bottom: 40px;" onclick="clickL3Group()">👉 加入群組聊聊下單</button>
+          <button class="lucky-white-x" onclick="closeL3Scam()">✕ 離開此特價</button>
+        </div>
+      </div>
+
+      <!-- 【這裡已完全修復位置】：讓破產卡片乖乖留在主外框中，樣式完全拷貝大結局失敗版型 -->
+      <div id="p-bankruptcy-clear" class="page">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <span class="card-ribbon">🍂 破產營業結算 🍂</span>
+        </div>
+        
+        <h2 style="color: #bc4f4f; font-size: 26px; font-weight: bold; margin-bottom: 10px;">🚨 遊戲結束</h2>
+
+        <div class="clear-card" style="max-width: 320px; margin: 15px auto; font-family: monospace;">
+          <h3 style="font-size: 15px; text-align: center; margin-bottom: 15px; color: #666; border-bottom: 2px solid #ddd; padding-bottom: 5px;">
+            📊 破產財務清算明細
+          </h3>
+          <div style="text-align: right; padding: 5px 15px; font-size: 16px; line-height: 1.8;">
+            <div style="display: flex; justify-content: space-between; color: #8b5a2b; height: 35px; align-items: center;">
+              <span>💰 當前總金幣資產：</span>
+              <span style="font-weight: bold; color: #666;">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #8b5a2b; height: 35px; align-items: center;">
+              <span>🚨 破產狀態判定：</span>
+              <span style="font-weight: bold; color: #bc4f4f;">金幣透支</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 22px; font-weight: bold; color: #e98b50; margin-top: 10px; padding-top: 5px; border-top: 2px dashed #8b5a2b; height: 45px; align-items: center;">
+              <span>💸 最終擁有金幣：</span>
+              <span style="color: #bc4f4f;">0 元</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="customer-box" style="background-color: #fffdf0; text-align: center; font-weight: bold; border-color: #f3cd97;">
+          <div class="cat-paw-decor" style="color: #e98b50; font-size: 24px;">🐾</div>
+          <p style="color: #e98b50; margin: 5px 0; font-size: 18px;"><b>下次再接再厲！</b></p>
+          <p style="font-size: 14px; color: #666; margin-top: 5px; text-align: left; line-height: 1.6; font-weight: normal;">
+            🦁 <b>理財大獅的話：</b><br>
+            因為你在前面的考驗中不小心將金幣扣到了負數，導致資金周轉不靈破產囉！開設貓咪咖啡廳需要更謹慎地防範詐騙與分配資產，下次一定可以順利圓夢！
+          </p>
+        </div>
+        
+        <button class="my-btn" style="background-color: #e98b50; margin-top: 15px;" onclick="location.reload()">再挑戰一次 🔄</button>
+      </div>
+
+
+      </div>
+
       <!-- 滿版強制插播未知來電畫面 -->
+
       <div id="scam-phone-overlay" class="scam-overlay">
         <div class="phone-container">
           <div>
@@ -705,7 +1117,7 @@
           <div id="scam-modal-countdown" class="scam-result-countdown">請稍候...</div>
         </div>
       </div>
-      <script>
+            <script>
         // --- 原有全域變數 ---
         var player_name = "小朋友";
         var current_gold = 150000;
@@ -716,6 +1128,10 @@
         var quiz_earned_gold = 0;
         var scam_penalty_gold = 0;
         var scam_detail_message = "";
+        
+      
+
+
         // --- 原有場景控制函式 ---
         function showPage(pageId) {
           var allPages = document.getElementsByClassName("page");
@@ -723,8 +1139,17 @@
             allPages[i].classList.remove("active");
           }
           document.getElementById(pageId).classList.add("active");
+          
+          // 【核心修正】：切換到破產或最終結局時，自動隱藏左側掛著的名字和餘額欄位
+          if (pageId === "p-bankruptcy-clear" || pageId === "p-stage3-clear") {
+            document.querySelector(".top-info").style.display = "none";
+          } else {
+            document.querySelector(".top-info").style.display = "block";
+          }
+          
           window.scrollTo(0, 0);
         }
+
         // --- 原有暱稱提交邏輯 ---
         function submitNameAndStart() {
           var inputVal = document.getElementById("name-input").value;
@@ -865,72 +1290,66 @@
           var mTitle = document.getElementById("scam-modal-title");
           var mBody = document.getElementById("scam-modal-body");
           var mCountdown = document.getElementById("scam-modal-countdown");
-          if (choice === 'accept') { // 修正：常數/字串 accept 需加上引號
-            // 情境 A：接聽不明來電 (扣 20000)
+          
+          if (choice === 'accept') { 
             scam_penalty_gold = -20000;
             scam_detail_message = "❌ 不明來電扣除 20,000 金幣！";
             mIcon.innerText = "🚨";
             mTitle.innerText = "不可以接不明來電！";
             mTitle.style.color = "#bc4f4f";
             mBody.innerHTML = `
-        
-																																		<div style="text-align: center;">
-            接通不明電話，可能導致個資標記轉賣。
-																																			<br>
-																																				<br>
-            🚨 警報：
-																																					<span style="color:#bc4f4f; font-weight:bold;">你被騙走 2 萬金幣！</span>
-																																				</div>
-    `;
+              <div style="text-align: center;">
+                接通不明電話，可能導致個資標記轉賣。<br><br>
+                🚨 警報：<span style="color:#bc4f4f; font-weight:bold;">你被騙走 2 萬金幣！</span>
+              </div>
+            `;
           } else {
-            // 情境 B：掛斷不明來電 (守住)
             scam_penalty_gold = 0;
             scam_detail_message = "✅ 成功守住 20,000 金幣！";
             mIcon.innerText = "🛡️";
             mTitle.innerText = "好棒！防詐成功！";
             mTitle.style.color = "#34c759";
             mBody.innerHTML = `
-        
-																																				<div style="text-align: center;">
-            接聽不明電話，可能導致個資標記轉賣。
-																																					<br>
-																																						<br>
-            ✨ 讚賞：
-																																							<span style="color:#34c759; font-weight:bold;">你守住了 2 萬金幣！</span>
-																																						</div>
-    `;
+              <div style="text-align: center;">
+                接聽不明電話，可能導致個資標記轉賣。<br><br>
+                ✨ 讚賞：<span style="color:#34c759; font-weight:bold;">你守住了 2 萬金幣！</span>
+              </div>
+            `;
           }
-          // 確保標題與圖示也能置中（若原本沒有置中的話）
+          
           mTitle.style.textAlign = "center";
           if (typeof mIcon !== 'undefined') mIcon.style.textAlign = "center";
-          // 彈出強制倒數提示窗，並關閉底層來電畫面
+          
           document.getElementById("scam-phone-overlay").style.display = "none";
           modal.style.display = "flex";
-          // 強制顯示 5 秒倒數控制
+          
           var secLeft = 5;
-          mCountdown.innerText = "畫面鎖定中... (" + secLeft + "秒)";
-          var modalInterval = setInterval(function() {
+          mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
+          
+          var firstStageInterval = setInterval(function() {
             secLeft--;
             if (secLeft > 0) {
-              mCountdown.innerText = "畫面鎖定中... (" + secLeft + "秒)";
+              mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
             } else {
-              clearInterval(modalInterval);
+              clearInterval(firstStageInterval);
               modal.style.display = "none";
-              finishStage1AndRefreshGold(); // 5秒結束，回到主線更新金幣
+              finishStage1AndRefreshGold(); 
             }
           }, 1000);
         }
-        // 最終回到主線：更新金幣，顯示第一關通關結算（直式數學記帳版）
+        
+                // 最終回到主線：更新金幣，顯示第一關通關結算（直式數學記帳版）
         function finishStage1AndRefreshGold() {
-          // 金幣最終公式：150000 + 答題金幣 + 詐騙金幣
           current_gold = 150000 + quiz_earned_gold + scam_penalty_gold;
-          // 更新左上方畫面的狀態看板金幣數值
           document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
-          // 1. 填入答對題數與獲得金幣（直式第二行）
-          var correctCount = quiz_earned_gold / 80000;
+          
+          // 第一關結束檢查是否破產（雖然初始錢多，以防萬一）
+          if (checkBankruptcy()) return;
+
+          var correctCount = quiz_earned_gold / 60000;
           document.getElementById("final-quiz-count").innerText = correctCount;
           document.getElementById("final-quiz-earning").innerText = quiz_earned_gold.toLocaleString();
-          // 2. 判斷詐騙關卡是扣錢還是守住，並動態調整直式的正負號與顏色（直式第三行）
+          
           var scamLabelEl = document.getElementById("scam-summary-label");
           var scamDisplayEl = document.getElementById("scam-gold-display");
           if (scam_penalty_gold < 0) {
@@ -944,11 +1363,513 @@
             scamDisplayEl.innerText = "＋" + scam_penalty_gold.toLocaleString();
             scamDisplayEl.parentElement.style.color = "#34c759";
           }
-          // 3. 填入總計公式加總後的最後總金額（直式第四行）
           document.getElementById("final-total-gold").innerText = current_gold.toLocaleString();
-          // 切換並開啟第一關落幕結算頁面
           showPage("p-stage1-clear");
         }
-      </script>
+
+      // ==========================================================================
+      // 以下為【第二關】核心控制 JavaScript 邏輯
+      // ==========================================================================
+      var hasInsurance = false;
+      var selectedItems = {};
+      var bankSavings = 0;
+
+      var l2_start_gold_val = 0;       
+      var l2_scam_change = 0;          
+      var l2_insurance_cost = 0;       
+      var l2_mall_cost = 0;            
+      var l2_accident_cost = 0;        
+
+      function goToLevelTwo() {
+        l2_start_gold_val = current_gold; 
+        var nameSpans = document.getElementsByClassName("l2-player-name");
+        for (var i = 0; i < nameSpans.length; i++) {
+          nameSpans[i].innerText = player_name;
+        }
+        showPage("p-l2-story");
+      }
+
+      function triggerLevelTwoScam() {
+        document.getElementById("lucky-bank-input").value = "";
+        document.getElementById("lucky-scam-modal").style.display = "flex";
+      }
+
+      function submitLuckyAccount() {
+        document.getElementById("lucky-scam-modal").style.display = "none";
+        
+        var modal = document.getElementById("scam-modal");
+        document.getElementById("scam-modal-icon").innerText = "🚨";
+        var mTitle = document.getElementById("scam-modal-title");
+        mTitle.innerText = "不可以交出銀行帳號！";
+        mTitle.style.color = "#bc4f4f";
+        document.getElementById("scam-modal-body").innerHTML = `<div style="text-align: center;">會被詐騙集團當成人頭帳戶，<br><br><span style="color:#bc4f4f; font-weight:bold;">你被騙走了 5 萬金幣！</span></div>`;
+        
+        modal.style.display = "flex";
+        current_gold -= 50000;
+        l2_scam_change = -50000; 
+        document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
+        
+        var secLeft = 5;
+        var mCountdown = document.getElementById("scam-modal-countdown");
+        mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
+        var modalInterval = setInterval(function() {
+          secLeft--;
+          if (secLeft > 0) {
+            mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
+          } else {
+            clearInterval(modalInterval);
+            modal.style.display = "none";
+            
+            // 扣錢後立刻做破產檢查
+            if (checkBankruptcy()) return;
+            
+            showPage("p-l2-bank");
+          }
+        }, 1000);
+      }
+
+      function closeLuckyScam() {
+        document.getElementById("lucky-scam-modal").style.display = "none";
+        
+        var modal = document.getElementById("scam-modal");
+        document.getElementById("scam-modal-icon").innerText = "🛡️";
+        var mTitle = document.getElementById("scam-modal-title");
+        mTitle.innerText = "好讚！防詐成功！";
+        mTitle.style.color = "#34c759";
+        document.getElementById("scam-modal-body").innerHTML = `<div style="text-align: center;">不可以交出銀行帳號！會被詐騙集團當成人頭帳戶，<br><br><span style="color:#34c759; font-weight:bold;">你守住了 5 萬金幣！</span></div>`;
+        
+        modal.style.display = "flex";
+        l2_scam_change = 0; 
+        
+        var secLeft = 5;
+        var mCountdown = document.getElementById("scam-modal-countdown");
+        mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
+        var modalInterval = setInterval(function() {
+          secLeft--;
+          if (secLeft > 0) {
+            mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
+          } else {
+            clearInterval(modalInterval);
+            modal.style.display = "none";
+            showPage("p-l2-bank");
+          }
+        }, 1000);
+      }
+
+            function buyInsurance(choice) {
+        if (choice === true) {
+          hasInsurance = true;
+          current_gold -= 50000;
+          l2_insurance_cost = 50000; 
+          document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
+          
+          // ✨ 新增：買完保險後的成功扣款提示
+          alert("🛡️ 你已經扣除 5 萬金幣，並成功買完醫療保險！🐾");
+        } else {
+          hasInsurance = false;
+          l2_insurance_cost = 0;
+        }
+        
+        // 買完保險後做破產檢查
+        if (checkBankruptcy()) return;
+
+        selectedItems = {};
+        document.getElementById("mall-total-cost").innerText = "0";
+        var items = document.getElementsByClassName("mall-item");
+        for(var i=0; i<items.length; i++) {
+          items[i].classList.remove("selected");
+        }
+        document.getElementById("mall-checkout-btn").disabled = true;
+        showPage("p-l2-mall");
+      }
+
+
+        function toggleMallItem(itemId, price) {
+        var el = document.getElementById("item-" + itemId);
+        if (selectedItems[itemId]) {
+          delete selectedItems[itemId];
+          el.classList.remove("selected");
+        } else {
+          selectedItems[itemId] = price;
+          el.classList.add("selected");
+        }
+        
+        var total = 0;
+        for (var key in selectedItems) {
+          total += selectedItems[key];
+        }
+        document.getElementById("mall-total-cost").innerText = total.toLocaleString();
+        
+        // 讓按鈕永遠保持亮起可以點擊，以便沒選完時能觸發點擊提醒
+        document.getElementById("mall-checkout-btn").disabled = false;
+      }
+
+      // 覆蓋原本的結帳函數，加入嚴格的「生活與營業必需品」完選檢查
+      function checkoutMall() {
+        // 檢查 4 樣必須購買的東西：晚餐食材(dinner)、咖啡豆(beans)、店用馬克杯(mug)、咖啡濾壺(pot)
+        var missingItems = [];
+        if (!selectedItems['dinner']) missingItems.push("🌾 晚餐食材");
+        if (!selectedItems['beans']) missingItems.push("🥔 咖啡豆");
+        if (!selectedItems['mug']) missingItems.push("☕ 店用馬克杯");
+        if (!selectedItems['pot']) missingItems.push("🛒 咖啡濾壺");
+
+        // 如果有沒有選到的必需品，主動彈出視窗提醒小朋友
+        if (missingItems.length > 0) {
+          alert("📋你還沒有選購完開咖啡廳和生活需要的所有東西喔！");
+          return; // 攔截，不讓程式往下跑
+        }
+
+
+        // 檢查通過，開始算錢
+        var total = 0;
+        for (var key in selectedItems) {
+          total += selectedItems[key];
+        }
+        current_gold -= total;
+        l2_mall_cost = total; 
+        document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
+        
+        // 結帳後做破產檢查
+        if (checkBankruptcy()) return;
+
+        // 受傷事件觸發
+        triggerAccidentEvent();
+      }
+
+
+      function triggerAccidentEvent() {
+        var modal = document.getElementById("scam-modal");
+        document.getElementById("scam-modal-icon").innerText = "🛵";
+        var mTitle = document.getElementById("scam-modal-title");
+        mTitle.innerText = "突發狀況！";
+
+        mTitle.style.color = "#bc4f4f";
+        
+        var msg = `<div>『${player_name}』騎車摔傷，醫療費 10 萬金幣！<br><br>`;
+        if (hasInsurance === true) {
+          msg += `<span style="color:#34c759; font-weight:bold;">✨ 幸好前面有買保險，本次醫療費由保險全額理賠！</span></div>`;
+          l2_accident_cost = 0; 
+        } else {
+          msg += `<span style="color:#bc4f4f; font-weight:bold;">❌ 糟糕！因為沒有買保險，必須自行負擔龐大醫療費...</span></div>`;
+          current_gold -= 100000;
+          l2_accident_cost = 100000; 
+        }
+        
+        document.getElementById("scam-modal-body").innerHTML = msg;
+        modal.style.display = "flex";
+        
+        var secLeft = 5;
+        var mCountdown = document.getElementById("scam-modal-countdown");
+        mCountdown.innerText = "理財結算中... (" + secLeft + "秒)";
+        var modalInterval = setInterval(function() {
+          secLeft--;
+          if (secLeft > 0) {
+            mCountdown.innerText = "理財結算中... (" + secLeft + "秒)";
+          } else {
+            clearInterval(modalInterval);
+            modal.style.display = "none";
+            
+            // 受傷扣款後做破產檢查
+            if (checkBankruptcy()) return;
+            
+            bankSavings = current_gold; 
+            document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
+            
+            document.getElementById("l2-start-gold").innerText = l2_start_gold_val.toLocaleString();
+            
+            var scamDisplayEl = document.getElementById("l2-scam-display");
+            var scamLabelEl = document.getElementById("l2-scam-label");
+            if (l2_scam_change < 0) {
+              scamLabelEl.innerText = "🚨 中獎詐騙 (被騙)：";
+              scamLabelEl.parentElement.style.color = "#bc4f4f";
+              scamDisplayEl.innerText = "－" + Math.abs(l2_scam_change).toLocaleString();
+            } else {
+              scamLabelEl.innerText = "🛡️ 中獎詐騙 (安全)：";
+              scamLabelEl.parentElement.style.color = "#34c759";
+              scamDisplayEl.innerText = "＋" + l2_scam_change.toLocaleString();
+            }
+
+            document.getElementById("l2-insurance-display").innerText = "－" + l2_insurance_cost.toLocaleString();
+            document.getElementById("l2-mall-display").innerText = "－" + l2_mall_cost.toLocaleString();
+            
+            var accidentDisplayEl = document.getElementById("l2-accident-display");
+            var accidentLabelEl = document.getElementById("l2-accident-label");
+            if (l2_accident_cost > 0) {
+              accidentLabelEl.innerText = "🚑 騎車摔傷 (無保險)：";
+              accidentDisplayEl.innerText = "－" + l2_accident_cost.toLocaleString();
+              document.getElementById("l2-accident-row").style.color = "#bc4f4f";
+            } else {
+              accidentLabelEl.innerText = "🛡️ 騎車摔傷 (保險理賠)：";
+              accidentDisplayEl.innerText = "±0";
+              document.getElementById("l2-accident-row").style.color = "#34c759";
+            }
+
+            document.getElementById("l2-final-savings").innerText = bankSavings.toLocaleString();
+            showPage("p-stage2-clear");
+          }
+        }, 1000);
+      }
+
+      // ==========================================================================
+      // 以下為【第三關】核心控制 JavaScript 邏輯
+      // ==========================================================================
+      var gold_A = 0;              
+      var l3_scam_penalty = 0;     
+      var invest_return_total = 0; 
+      var interest_earned = 0;     
+      var bought_royal_machine = false; 
+
+      function startLevelThreePage() {
+        var nameSpans = document.getElementsByClassName("l2-player-name");
+        for (var i = 0; i < nameSpans.length; i++) {
+          nameSpans[i].innerText = player_name;
+        }
+        showPage("p-l3-story");
+      }
+
+            function deductForInvestment() {
+        // 點擊後不提早扣錢與判斷，先帶小朋友去面對第 3 關的網購詐騙考驗
+        triggerLevelThreeScam();
+      }
+
+      function triggerLevelThreeScam() {
+        document.getElementById("l3-scam-modal").style.display = "flex";
+      }
+
+                  function clickL3Group() {
+        document.getElementById("l3-scam-modal").style.display = "none";
+        var modal = document.getElementById("scam-modal");
+        document.getElementById("scam-modal-icon").innerText = "🚨";
+        var mTitle = document.getElementById("scam-modal-title");
+        mTitle.innerText = "不可以相信陌生賣家！";
+        mTitle.style.color = "#bc4f4f";
+        document.getElementById("scam-modal-body").innerHTML = `
+          <div style="text-align: left; font-size:14px; line-height:1.6;">
+            詐騙賣家常通過私人通訊軟體（如LINE、Messenger等），並用大特價吸引你購買，商品請在合法網購平台下單。<br><br>
+            <span style="color:#bc4f4f; font-weight:bold; font-size:16px; display:block; text-align:center;">🚨 你被詐騙損失 3 萬金幣！</span>
+          </div>`;
+        modal.style.display = "flex";
+        current_gold -= 30000;
+        l3_scam_penalty = -30000;
+        document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
+        
+        var secLeft = 5;
+        var mCountdown = document.getElementById("scam-modal-countdown");
+        mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
+        var modalInterval = setInterval(function() {
+          secLeft--;
+          if (secLeft > 0) {
+            mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
+          } else {
+            clearInterval(modalInterval);
+            modal.style.display = "none";
+            if (checkBankruptcy()) return;
+
+            // 【核心修正 1】：詐騙結束後啟動理財判定
+            if (current_gold < 100000) {
+              alert("😭 你的金幣數只有 " + current_gold.toLocaleString() + " 元，沒有足夠的 10 萬金幣進行投資，因此直接前往挑選咖啡機囉！");
+              gold_A = current_gold;
+              invest_return_total = 0;
+              interest_earned = 0;
+              checkAndGoToMall(); // 前往咖啡機環節，內部含有 5 萬判定
+            } else {
+              showPage("p-l3-invest"); 
+            }
+          }
+        }, 1000);
+      }
+
+      function closeL3Scam() {
+        document.getElementById("l3-scam-modal").style.display = "none";
+        var modal = document.getElementById("scam-modal");
+        document.getElementById("scam-modal-icon").innerText = "🛡️";
+        var mTitle = document.getElementById("scam-modal-title");
+        mTitle.innerText = "太讚了！安全防詐！";
+        mTitle.style.color = "#34c759";
+        document.getElementById("scam-modal-body").innerHTML = `
+          <div style="text-align: left; font-size:14px; line-height:1.6;">
+            不可以相信陌生賣家！詐騙賣家常通過私人通訊軟體（如LINE、Messenger等），並用大特價吸引你購買，商品請在合法網購平台下單。<br><br>
+            <span style="color:#34c759; font-weight:bold; font-size:16px; display:block; text-align:center;">✨ 你守住了 3 萬金幣！</span>
+          </div>`;
+        modal.style.display = "flex";
+        l3_scam_penalty = 0;
+        
+        var secLeft = 5;
+        var mCountdown = document.getElementById("scam-modal-countdown");
+        mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
+        var modalInterval = setInterval(function() {
+          secLeft--;
+          if (secLeft > 0) {
+            mCountdown.innerText = "請稍候... (" + secLeft + "秒)";
+          } else {
+            clearInterval(modalInterval);
+            modal.style.display = "none";
+            
+            // 【核心修正 2】：詐騙結束後啟動理財判定
+            if (current_gold < 100000) {
+              alert("😭 你的金幣數只有 " + current_gold.toLocaleString() + " 元，沒有足夠的 10 萬金幣進行投資，因此直接前往挑選咖啡機囉！");
+              gold_A = current_gold; 
+              invest_return_total = 0; 
+              interest_earned = 0; 
+              checkAndGoToMall(); 
+            } else {
+              showPage("p-l3-invest"); 
+            }
+          }
+        }, 1000);
+      }
+
+      // 【全新樞紐函數】：進入皇家咖啡機專櫃時，自動判定金幣是否足夠 5 萬
+      function checkAndGoToMall() {
+        if (current_gold < 50000) {
+          alert("😭 你的金幣數只有 " + current_gold.toLocaleString() + " 元，沒有足夠的 5 萬金幣購買皇家咖啡機，因此直接進入遊戲結算畫面。");
+          triggerFinalGameClear(); // 直接跳到結局結算畫面
+        } else {
+          showPage("p-l3-mall"); // 金幣充足，放行挑選咖啡機
+        }
+      }
+
+            function submitInvestment() {
+        var valA = parseInt(document.getElementById("invest-a").value) || 0;
+        var valB = parseInt(document.getElementById("invest-b").value) || 0;
+        var valC = parseInt(document.getElementById("invest-c").value) || 0;
+        
+        if (valA < 0 || valB < 0 || valC < 0) {
+          alert("投資金額不能是負數數值喔！");
+          return;
+        }
+        
+        if ((valA + valB + valC) !== 10) {
+          alert("分配的金額總和必須「剛好等於 10 萬元」喔！目前總和為：" + (valA + valB + valC) + " 萬元。");
+          return;
+        }
+
+        // --- 【核心變更：確定滿 10 萬並分配好後，正式進行扣本金動作】 ---
+        current_gold -= 100000; // 正式扣除 10 萬投資本金
+        gold_A = current_gold;  // 剩餘的錢轉為活期利息本金基底
+        
+        var goldA_invest = valA * 10000;
+        var goldB_invest = valB * 10000;
+        var goldC_invest = valC * 10000;
+        
+        var returnA = goldA_invest * 1.15;
+        var returnB = goldB_invest * 1.3;
+        var returnC = goldC_invest * 0.85;
+        
+        invest_return_total = returnA + returnB + returnC;
+        interest_earned = Math.round(gold_A * 0.05);
+        
+        // 將回收的本利加回總資產
+        current_gold = current_gold + invest_return_total + interest_earned;
+        document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
+        
+        if (checkBankruptcy()) return;
+
+        alert("📊 財經結報出爐！\n\n您的投資部位共回收了 " + invest_return_total.toLocaleString() + " 金幣！\n此外，您的存款本金獲得了 5% 的活期利息，共計 " + interest_earned.toLocaleString() + " 金幣！\n\n接著，讓我們前往百貨公司挑選咖啡機吧！");
+        
+        showPage("p-l3-mall");
+      }
+
+      function buyRoyalMachine(choice) {
+        if (choice === true) {
+          bought_royal_machine = true;
+          current_gold -= 50000; 
+          document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
+          alert("成功買下高貴華麗的【皇家咖啡機】！");
+        } else {
+          bought_royal_machine = false;
+          alert("你決定不購買皇家咖啡機。");
+        }
+        
+        if (checkBankruptcy()) return;
+
+        triggerFinalGameClear();
+      }
+
+      function triggerFinalGameClear() {
+        document.getElementById("end-gold-a").innerText = gold_A.toLocaleString();
+        
+        var scamEl = document.getElementById("end-l3-scam");
+        if (l3_scam_penalty < 0) {
+          scamEl.innerText = "－" + Math.abs(l3_scam_penalty).toLocaleString();
+          document.getElementById("row-l3-scam").style.color = "#bc4f4f";
+        } else {
+          scamEl.innerText = "±0";
+          document.getElementById("row-l3-scam").style.color = "#34c759";
+        }
+        if (bought_royal_machine) {
+          document.getElementById("end-royal-cost").innerText = "－50,000";
+          document.getElementById("row-royal-buy").style.color = "#bc4f4f";
+        } else {
+          document.getElementById("end-royal-cost").innerText = "－0";
+          document.getElementById("row-royal-buy").style.color = "#666";
+        }
+        
+        document.getElementById("end-final-gold").innerText = current_gold.toLocaleString();
+        
+        var titleEl = document.getElementById("game-final-title");
+        var ribbonEl = document.getElementById("game-result-ribbon");
+        var evalBox = document.getElementById("game-evaluation-box");
+        
+        if (current_gold >= 250000 && bought_royal_machine === true) {
+          titleEl.innerText = "🎉 夢想成真！";
+          titleEl.style.color = "#34c759";
+          ribbonEl.innerText = "✨ 皇家開店完賽證書 ✨";
+          ribbonEl.style.background = "#34c759";
+          evalBox.innerHTML = `
+            <div class="cat-paw-decor">🐾🐾🐾🐾</div>
+            <p style="color: #34c759; margin: 5px 0; font-size:18px;"><b>恭喜你完成開設貓咪咖啡廳的任務！</b></p>
+            <p style="font-size:14px; color:#555; margin-top:5px;">
+              你成功展現了卓越的咖啡調配技術、敏銳的防詐直覺與精準的金融投資判斷力！貓咪咖啡廳正式隆重開幕囉！
+            </p>
+          `;
+        } else {
+          titleEl.innerText = "⚠️ 仍需努力！";
+          titleEl.style.color = "#e98b50";
+          ribbonEl.innerText = "🍂 營業見習成績單 🍂";
+          ribbonEl.style.background = "#e98b50";
+          
+          var reason = "";
+          if (current_gold < 250000 && !bought_royal_machine) {
+            reason = "因為你的金幣未達 25 萬，且沒有買下皇家咖啡機。";
+          } else if (current_gold < 250000) {
+            reason = "雖然你買了咖啡機，但最後總金幣未達 25 萬目標。";
+          } else {
+            reason = "雖然你存夠了錢，但是你忘記買最重要的【皇家咖啡機】了。";
+          }
+          
+          evalBox.innerHTML = `
+            <div class="cat-paw-decor">🐾</div>
+            <p style="color: #e98b50; margin: 5px 0; font-size:18px;"><b>下次再接再厲！</b></p>
+            <p style="font-size:14px; color:#666; margin-top:5px;">
+              ${reason}<br>多加留意資訊安全與資產分配，下次一定可以順利圓夢！
+            </p>
+          `;
+        }
+        
+        showPage("p-stage3-clear");
+      }
+
+      // 破產機制主核心：完美移除多餘邏輯，直接切換到跟結局一致的卡片
+       function checkBankruptcy() {
+        if (current_gold < 0) { 
+          current_gold = 0;
+          document.getElementById("stat-gold").innerText = "0";
+          
+          document.getElementById("scam-modal").style.display = "none";
+          if(document.getElementById("lucky-scam-modal")) document.getElementById("lucky-scam-modal").style.display = "none";
+          if(document.getElementById("l3-scam-modal")) document.getElementById("l3-scam-modal").style.display = "none";
+          if(document.getElementById("scam-phone-overlay")) document.getElementById("scam-phone-overlay").style.display = "none";
+          
+          // 【修復 Bug】：刪除原本設定 bankruptcy-player-name 的那行代碼，避免找不到標籤報錯
+          
+          showPage("p-bankruptcy-clear");
+          return true;
+        }
+        return false;
+      }
+
+
+     </script> 
   </body>
 </html>
