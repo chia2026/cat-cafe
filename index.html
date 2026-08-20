@@ -285,20 +285,22 @@
         outline: none;
       }
 
-      /* 滿版未知來電覆蓋畫面 */
+       /* 滿版未知來電覆蓋畫面 */
       .scam-overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background-color: #1a1a1a;
+        /* ✨ 這裡已成功改為指定的高質感深藍色色號 #223F55 */
+        background-color: #223F55;
         z-index: 9999;
         display: none;
         justify-content: center;
         align-items: center;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       }
+
 
       /* 手機來電 UI 模擬器 */
       .phone-container {
@@ -770,7 +772,7 @@
       </div>
 
         <div id="p-l2-story" class="page">
-        <h2>🐾 第二關：分配與犒賞</h2>
+        <h2>🐾 第二關：分配</h2>
         <div class="customer-box">
           <div class="customer-title">🦁 咖啡大獅：</div>
           <p>「哎呀！『<span class="l2-player-name"></span>』真是努力呀！記得吃飯喔！」</p>
@@ -836,7 +838,7 @@
         </style>
 
         <!-- 卡片主體容器 -->
-        <div class="lucky-scam-box" style="background: white; width: 330px; border-radius: 16px; overflow: visible; box-shadow: 0 15px 30px rgba(0,0,0,0.3); position: relative; border: none; padding: 0;">
+        <div class="lucky-scam-box" style="background: white; width: 360px; border-radius: 16px; overflow: visible; box-shadow: 0 15px 30px rgba(0,0,0,0.3); position: relative; border: none; padding: 0;">
           
           <!-- 上半部：由指定黃色系組成的放射背景 -->
           <div style="background: #F3CD97; height: 170px; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; border-top-left-radius: 16px; border-top-right-radius: 16px;">
@@ -853,11 +855,11 @@
 
           <!-- 下半部：白底文案、輸入框與指定色號按鈕區 -->
           <div style="padding: 25px 20px; text-align: center; background: white; position: relative; z-index: 4; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
-            <h2 style="color: #E98B50; font-size: 26px; font-weight: bold; margin: 0 0 5px 0; letter-spacing: 2px;">恭喜！</h2>
-            <p style="font-size: 15px; color: #444; font-weight: bold; margin: 0 0 10px 0;">
-              恭喜抽中 <span style="color: #bc4f4f; font-size: 18px;">5 萬</span> 活動金幣大獎！
+            <h2 style="color: #bc4f4f; font-size: 30px; font-weight: bold; margin: 0 0 5px 0; letter-spacing: 2px;">✨恭喜✨</h2>
+            <p style="font-size: 18px; color: #444; font-weight: bold; margin: 0 0 10px 0;">
+              恭喜抽中 <span style="color: #bc4f4f; font-size: 25px;">5 萬</span> 金幣大獎！
             </p>
-            <p style="font-size: 13px; color: #777; margin: 0 0 15px 0; font-weight: bold;">請輸入銀行帳號領取金幣：</p>
+            <p style="font-size: 15px; color: #777; margin: 0 0 15px 0; font-weight: bold;">請輸入銀行帳號領取金幣：</p>
             
             <!-- 原汁原味保留帳號輸入框 -->
             <input type="text" id="lucky-bank-input" placeholder="請輸入您的銀行帳號" style="width: 100%; padding: 12px; font-size: 16px; box-sizing: border-box; margin-bottom: 15px; border: 2px solid #F3CD97; border-radius: 8px; text-align: center; color: #8b5a2b; font-weight: bold; background-color: #fffdf0;">
@@ -920,7 +922,7 @@
         </div>
         <!-- 溫馨提示與未來過渡點 -->
         <p style="text-align: center; color: #8b5a2b; font-weight: bold; font-size: 15px; margin-top: 20px; padding: 0 10px;"> 
-          💰 太棒了！你目前手頭上的金幣已經安全轉存為銀行存款囉！
+          💰 你目前的金幣已經安全成為銀行存款囉！
         </p>
         <button class="my-btn" style="margin-top: 15px;" onclick="startLevelThreePage()">下一關：前進第三關</button>
       </div>
@@ -939,12 +941,13 @@
       </div>
 
       <!-- 畫面：第三關投資環節 -->
+            <!-- 畫面：第三關投資環節 (全新細化三間公司資訊) -->
       <div id="p-l3-invest" class="page">
         <h2>📰 財經日報資訊</h2>
         <div class="customer-box" style="background-color: #fffdf0; border: 2px solid #e98b50;">
           <p style="font-size: 14px; margin: 0; line-height: 1.8;">
             <b>【報紙內容】</b><br>
-            美國聯準會預測明年度亞洲國家景氣轉弱，各國中央銀行會考慮降息因應。接著因為目前國際禽流感盛行，國內食品業需要加強防疫措施。最後，歐洲市場基本需求不減，截稿前採購還未中斷。
+            美國聯準會預測明年度亞洲國家景氣轉弱，各國中央銀行會考慮降息因應。接著因為目前國際禽流感盛行，肉品無法進口，而國內食品業需要加強防疫措施。最後，歐洲市場3C產品基本需求不減，截稿前採購還未中斷。
           </p>
         </div>
         
@@ -952,23 +955,41 @@
           請分配合計 <span class="highlight-text">10</span> 萬元的投資（只能填整數）：
         </p>
 
-        <div class="customer-box" style="padding: 10px; margin-bottom: 10px;">
-          <div style="font-size: 14px; font-weight: bold;">🌾 A公司 (農場肉品牛奶蛋，利潤低)</div>
-          <div class="quiz-row" style="margin: 5px 0;">
+        <!-- A公司細化資訊 -->
+        <div class="customer-box" style="padding: 12px; margin-bottom: 12px; border-color: #f3cd97;">
+          <div style="font-size: 15px; font-weight: bold; color: #8b5a2b; border-bottom: 1px solid #f3cd97; padding-bottom: 4px; margin-bottom: 6px;">🥩A公司</div>
+          <div style="font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 8px;">
+            <b>📌 營業項目：</b>經營農場，生產各式肉品、牛奶和雞蛋。<br>
+            <b>👍 公司優勢：</b>家家戶戶的餐桌都需要他，需求穩定。<br>
+            <b>⚠️ 公司劣勢：</b>屬於民生基本物資，利潤較低。
+          </div>
+          <div class="quiz-row" style="margin: 0; font-size: 15px; font-weight: bold;">
             投資 <input type="number" id="invest-a" class="quiz-input" min="0" max="10" value="0"> 萬元
           </div>
         </div>
 
-        <div class="customer-box" style="padding: 10px; margin-bottom: 10px;">
-          <div style="font-size: 14px; font-weight: bold;">💻 B公司 (電子材料出口，風阻高利潤最高)</div>
-          <div class="quiz-row" style="margin: 5px 0;">
+        <!-- B公司細化資訊 -->
+        <div class="customer-box" style="padding: 12px; margin-bottom: 12px; border-color: #f3cd97;">
+          <div style="font-size: 15px; font-weight: bold; color: #8b5a2b; border-bottom: 1px solid #f3cd97; padding-bottom: 4px; margin-bottom: 6px;">📱B公司</div>
+          <div style="font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 8px;">
+            <b>📌 營業項目：</b>經營電子材料出口。<br>
+            <b>👍 公司優勢：</b>在國際上很知名，產品利潤最高。<br>
+            <b>⚠️ 公司劣勢：</b>遇到國外客戶減少訂單時，會損失慘重。
+          </div>
+          <div class="quiz-row" style="margin: 0; font-size: 15px; font-weight: bold;">
             投資 <input type="number" id="invest-b" class="quiz-input" min="0" max="10" value="0"> 萬元 
           </div>
         </div>
 
-        <div class="customer-box" style="padding: 10px; margin-bottom: 10px;">
-          <div style="font-size: 14px; font-weight: bold;">🏦 C公司 (存放款業務賺利息，景氣差大虧)</div>
-          <div class="quiz-row" style="margin: 5px 0;">
+        <!-- C公司細化資訊 -->
+        <div class="customer-box" style="padding: 12px; margin-bottom: 12px; border-color: #f3cd97;">
+          <div style="font-size: 15px; font-weight: bold; color: #8b5a2b; border-bottom: 1px solid #f3cd97; padding-bottom: 4px; margin-bottom: 6px;">💵 C公司</div>
+          <div style="font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 8px;">
+            <b>📌 營業項目：</b>經營存放款業務。<br>
+            <b>👍 公司優勢：</b>主要賺手續費和利息，經濟好時最賺錢。<br>
+            <b>⚠️ 公司劣勢：</b>市場景氣與經濟不好時，會面臨大虧錢。
+          </div>
+          <div class="quiz-row" style="margin: 0; font-size: 15px; font-weight: bold;">
             投資 <input type="number" id="invest-c" class="quiz-input" min="0" max="10" value="0"> 萬元
           </div>
         </div>
@@ -976,10 +997,11 @@
         <button class="my-btn" onclick="submitInvestment()">確認送出投資分配</button>
       </div>
 
+
       <!-- 畫面：最後走進百貨公司 -->
       <div id="p-l3-mall" class="page">
         <h2>🏪 百貨公司皇家專櫃</h2>
-        <img src="coffee-machine.png" alt="Royal Coffee Machine" class="game-img" style="max-width: 50%;">
+        <img src="coffee-machine2.png" alt="Royal Coffee Machine" class="game-img" style="max-width: 50%;">
         <div class="customer-box" style="text-align: center;">
           <div class="customer-title">🏪 百貨專員：</div>
           <p style="font-weight: bold; font-size: 18px; margin: 5px 0;">「請問需要購買皇家咖啡機嗎？」</p>
@@ -1019,7 +1041,7 @@
               <span>👑 購買皇家咖啡機：</span>
               <span id="end-royal-cost">－0</span>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #e98b50; margin-top: 10px; padding-top: 5px; border-top: 2px dashed #8b5a2b;">
+            <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #bc4f4f; margin-top: 10px; padding-top: 5px; border-top: 2px dashed #8b5a2b;">
               <span>💸 最終擁有金幣：</span>
               <span id="end-final-gold">0</span>
             </div>
@@ -1030,20 +1052,82 @@
           <!-- 評價文字 -->
         </div>
         
-        <button class="my-btn" onclick="location.reload()">再玩一次 🔄</button>
+        <button class="my-btn" onclick="location.reload()">再玩一次</button>
       </div>
 
-      <!-- 插入購物詐騙的喜慶風 Modal 彈窗 -->
-      <div id="l3-scam-modal" class="lucky-scam-modal">
-        <div class="lucky-scam-box" style="background: linear-gradient(135deg, #ff9900 0%, #ff5500 100%);">
-          <div class="lucky-title" style="font-size: 28px; color: #fff;">⚡ 限時特賣 ⚡</div>
-          <p style="font-size: 18px; font-weight: bold; color: #ffe600; margin: 10px 0;">皇家咖啡機現正特價！</p>
-          <p style="font-size: 14px; margin-bottom: 5px; color: #fff;">市價 5 萬，現正下殺只要 <span style="font-size: 20px; color:#ffe600; font-weight:bold;">1 萬</span>！</p>
-          <p style="font-size: 12px; color: #ffebcd; margin-bottom: 15px;">⏳ 限量秒殺・限時 1 分鐘！</p>
-          <button class="my-btn" style="background-color: #ffe600; color: #cc0000; font-size: 16px; margin-bottom: 40px;" onclick="clickL3Group()">👉 加入群組聊聊下單</button>
-          <button class="lucky-white-x" onclick="closeL3Scam()">✕ 離開此特價</button>
+                  <!-- 重新設計：全面局部放大、完美融合 789x899 咖啡機照片的全動態特賣彈窗 -->
+      <div id="l3-scam-modal" class="lucky-scam-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10005; justify-content: center; align-items: center; font-family: 'Microsoft JhengHei', sans-serif;">
+        
+        <!-- 純網頁動態特效與指定柔和風格樣式注入 -->
+        <style>
+          @keyframes posterPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+          @keyframes btnWobble { 0%, 100% { transform: scale(1); box-shadow: 0 4px 10px rgba(233,139,80,0.3); } 30% { transform: scale(1.04) rotate(1deg); } 50% { transform: scale(1.04) rotate(-1deg); box-shadow: 0 6px 20px rgba(233,139,80,0.6); } 70% { transform: scale(1.04) rotate(1deg); } }
+          /* 將海報整體寬度從 330px 放大至 360px */
+          .px-poster-box-clean { background: #fffdf0; width: 360px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.35); position: relative; padding: 0; animation: posterPulse 3s ease-in-out infinite; overflow: visible; }
+          .px-side-stripe-clean { position: absolute; right: 0; top: 0; width: 16px; height: 100%; background: repeating-linear-gradient(45deg, #f4d0a4, #f4d0a4 4px, #fffdf0 4px, #fffdf0 8px); border-top-right-radius: 20px; border-bottom-right-radius: 20px; }
+        </style>
+
+        <!-- 海報卡片主體容器 -->
+        <div class="px-poster-box-clean">
+          
+          <!-- 右上角懸空白色透明打叉關閉按鈕 -->
+          <button style="position: absolute; top: -18px; right: -18px; width: 38px; height: 38px; border-radius: 50%; border: 2px solid #fff; background: rgba(0,0,0,0.5); color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.25); z-index: 10010; line-height: 1; padding: 0;" onclick="closeL3Scam()">✕</button>
+
+          <!-- 頂部裝飾條：彩色小圓點 -->
+          <div style="padding: 15px 15px 5px 15px; display: flex; gap: 6px;">
+            <div style="width: 10px; height: 10px; background: #e98b50; border-radius: 50%;"></div>
+            <div style="width: 10px; height: 10px; background: #F3CD97; border-radius: 50%;"></div>
+            <div style="width: 10px; height: 10px; background: #FEF2A0; border-radius: 50%;"></div>
+          </div>
+
+          <!-- 上半部：大紅色圓角限時特賣爆炸對話框 -->
+          <div style="padding: 10px 30px 10px 15px; position: relative;">
+            <div style="background: #bc4f4f; border-radius: 12px; padding: 10px 0; text-align: center; box-shadow: 0 4px 12px rgba(255,51,51,0.25); position: relative;">
+              <h1 style="color: #fff; font-size: 38px; font-weight: 900; margin: 0; letter-spacing: 3px;">限時特賣</h1>
+              <!-- 鋸齒對話框小尾巴 -->
+              <div style="position: absolute; bottom: -12px; left: 30px; width: 0; height: 0; border-style: solid; border-width: 12px 10px 0 0; border-color: #bc4f4f transparent transparent transparent;"></div>
+            </div>
+          </div>
+
+          <!-- 中間資訊區：左邊放放大版咖啡機照片，右邊放特價文字 -->
+          <div style="display: flex; padding: 15px 30px 15px 15px; gap: 15px; align-items: center;">
+            
+            <!-- 📷 左側：放大版咖啡機圖片容器（完全移除白底白框，直接與海報背景融合） -->
+            <div style="width: 140px; height: 160px; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+              <img src="coffee-machine.png" alt="皇家咖啡機" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'color:#aaa;font-size:12px;font-weight:bold;text-align:center;padding:5px;line-height:1.4;\'>📷<br>789x899<br>圖片空格<br>(coffee-machine.png)</span>';">
+            </div>
+
+            <!-- 右側：特價內容文案 -->
+            <div style="flex: 1; text-align: left; color: #333;">
+              <div style="font-size: 19px; font-weight: 900; margin-bottom: 2px; color: #000;">皇家咖啡機</div>
+              <div style="font-size: 13px; font-weight: bold; color: #999; text-decoration: line-through; margin-bottom: 3px;">原價 50,000 元</div>
+              <div style="font-size: 15px; font-weight: 900; color: #bc4f4f; margin-bottom: -5px;">搶購特價</div>
+              <div style="display: flex; align-items: flex-end;">
+                <span style="font-size: 48px; font-weight: 900; color: #bc4f4f; line-height: 1; font-family: 'Arial Black', sans-serif;">10,000</span>
+                <span style="font-size: 15px; font-weight: bold; color: #bc4f4f; margin-left: 4px; margin-bottom: 4px;">元</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 下半部：限時提示、每人限購與動態加入群組按鈕 -->
+          <div style="padding: 0 30px 25px 15px; text-align: center;">
+            <div style="font-size: 13px; font-weight: 900; color: #ff5500; background: #fff; border: 1.5px dashed #bc4f4f; padding: 6px; border-radius: 6px; margin-bottom: 18px; letter-spacing: 0.5px;">
+              ⏳ 限量秒殺・限時 1 分鐘！每人限購1台！
+            </div>
+            
+            <!-- 亮橘色動態震動按鈕 (色號精準使用 E98B50) -->
+            <button class="my-btn" style="background: #E98B50; color: white; border: none; border-radius: 10px; padding: 14px 0; font-size: 18px; font-weight: bold; width: 100%; cursor: pointer; box-shadow: 0 4px 12px rgba(233,139,80,0.35); animation: btnWobble 2s infinite;" onclick="clickL3Group()">
+              👉 加入群組聊聊下單
+            </button>
+          </div>
+
+          <!-- 右側裝飾斜線邊條 -->
+          <div class="px-side-stripe-clean"></div>
         </div>
       </div>
+
+
 
       <!-- 【這裡已完全修復位置】：讓破產卡片乖乖留在主外框中，樣式完全拷貝大結局失敗版型 -->
       <div id="p-bankruptcy-clear" class="page">
@@ -1066,7 +1150,7 @@
               <span>🚨 破產狀態判定：</span>
               <span style="font-weight: bold; color: #bc4f4f;">金幣透支</span>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 22px; font-weight: bold; color: #e98b50; margin-top: 10px; padding-top: 5px; border-top: 2px dashed #8b5a2b; height: 45px; align-items: center;">
+            <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #bc4f4f; margin-top: 10px; padding-top: 5px; border-top: 2px dashed #8b5a2b; height: 45px; align-items: center;">
               <span>💸 最終擁有金幣：</span>
               <span style="color: #bc4f4f;">0 元</span>
             </div>
@@ -1075,14 +1159,14 @@
 
         <div class="customer-box" style="background-color: #fffdf0; text-align: center; font-weight: bold; border-color: #f3cd97;">
           <div class="cat-paw-decor" style="color: #e98b50; font-size: 24px;">🐾</div>
-          <p style="color: #e98b50; margin: 5px 0; font-size: 18px;"><b>下次再接再厲！</b></p>
+          <p style="color: #bc4f4f; margin: 5px 0; font-size: 18px;"><b>下次再接再厲！</b></p>
           <p style="font-size: 14px; color: #666; margin-top: 5px; text-align: left; line-height: 1.6; font-weight: normal;">
-            🦁 <b>理財大獅的話：</b><br>
+            🦁 <b>：</b><br>
             因為你在前面的考驗中不小心將金幣扣到了負數，導致資金周轉不靈破產囉！開設貓咪咖啡廳需要更謹慎地防範詐騙與分配資產，下次一定可以順利圓夢！
           </p>
         </div>
         
-        <button class="my-btn" style="background-color: #e98b50; margin-top: 15px;" onclick="location.reload()">再挑戰一次 🔄</button>
+        <button class="my-btn" style="background-color: #e98b50; margin-top: 15px;" onclick="location.reload()">再玩一次</button>
       </div>
 
 
@@ -1402,7 +1486,7 @@
         var mTitle = document.getElementById("scam-modal-title");
         mTitle.innerText = "不可以交出銀行帳號！";
         mTitle.style.color = "#bc4f4f";
-        document.getElementById("scam-modal-body").innerHTML = `<div style="text-align: center;">會被詐騙集團當成人頭帳戶，<br><br><span style="color:#bc4f4f; font-weight:bold;">你被騙走了 5 萬金幣！</span></div>`;
+        document.getElementById("scam-modal-body").innerHTML = `<div style="text-align: center;">會被詐騙集團當人頭帳戶<br><br><span style="color:#bc4f4f; font-weight:bold;">你被騙走了 5 萬金幣！</span></div>`;
         
         modal.style.display = "flex";
         current_gold -= 50000;
@@ -1436,7 +1520,7 @@
         var mTitle = document.getElementById("scam-modal-title");
         mTitle.innerText = "好讚！防詐成功！";
         mTitle.style.color = "#34c759";
-        document.getElementById("scam-modal-body").innerHTML = `<div style="text-align: center;">不可以交出銀行帳號！會被詐騙集團當成人頭帳戶，<br><br><span style="color:#34c759; font-weight:bold;">你守住了 5 萬金幣！</span></div>`;
+        document.getElementById("scam-modal-body").innerHTML = `<div style="text-align: center;">交出銀行帳號，會被詐騙集團當人頭帳戶<br><br><span style="color:#34c759; font-weight:bold;">你守住了 5 萬金幣！</span></div>`;
         
         modal.style.display = "flex";
         l2_scam_change = 0; 
@@ -1547,10 +1631,10 @@
         
         var msg = `<div>『${player_name}』騎車摔傷，醫療費 10 萬金幣！<br><br>`;
         if (hasInsurance === true) {
-          msg += `<span style="color:#34c759; font-weight:bold;">✨ 幸好前面有買保險，本次醫療費由保險全額理賠！</span></div>`;
+          msg += `<span style="color:#34c759; font-weight:bold;">✨ 幸好有買保險，醫療費由保險全額理賠！</span></div>`;
           l2_accident_cost = 0; 
         } else {
-          msg += `<span style="color:#bc4f4f; font-weight:bold;">❌ 糟糕！因為沒有買保險，必須自行負擔龐大醫療費...</span></div>`;
+          msg += `<span style="color:#bc4f4f; font-weight:bold;">❌ 糟糕！沒有買保險，必須自行負擔醫療費...</span></div>`;
           current_gold -= 100000;
           l2_accident_cost = 100000; 
         }
@@ -1786,9 +1870,12 @@
         triggerFinalGameClear();
       }
 
-      function triggerFinalGameClear() {
-        document.getElementById("end-gold-a").innerText = gold_A.toLocaleString();
+            function triggerFinalGameClear() {
+        // 1. 修正欄位：投資前金幣數 (若有投資回報，代表有扣10萬投資，需補加回來顯示)
+        var displayGoldBeforeInvest = (invest_return_total > 0) ? (gold_A + 100000) : gold_A;
+        document.getElementById("end-gold-a").innerText = displayGoldBeforeInvest.toLocaleString();
         
+        // 2. 修正欄位：第三關購物詐騙影響
         var scamEl = document.getElementById("end-l3-scam");
         if (l3_scam_penalty < 0) {
           scamEl.innerText = "－" + Math.abs(l3_scam_penalty).toLocaleString();
@@ -1797,6 +1884,17 @@
           scamEl.innerText = "±0";
           document.getElementById("row-l3-scam").style.color = "#34c759";
         }
+        
+        // 3. 修正欄位：投資回報與活期利息 (若玩家被跳過投資，強制顯示 ±0)
+        if (invest_return_total > 0) {
+          document.getElementById("end-invest-return").innerText = "＋" + invest_return_total.toLocaleString();
+          document.getElementById("end-interest-val").innerText = "＋" + interest_earned.toLocaleString();
+        } else {
+          document.getElementById("end-invest-return").innerText = "±0";
+          document.getElementById("end-interest-val").innerText = "±0";
+        }
+        
+        // 4. 修正欄位：購買皇家咖啡機扣款
         if (bought_royal_machine) {
           document.getElementById("end-royal-cost").innerText = "－50,000";
           document.getElementById("row-royal-buy").style.color = "#bc4f4f";
@@ -1805,8 +1903,10 @@
           document.getElementById("row-royal-buy").style.color = "#666";
         }
         
+        // 5. 修正欄位：最終擁有金幣 (與畫面上方所有加減項目完美吻合)
         document.getElementById("end-final-gold").innerText = current_gold.toLocaleString();
         
+        // --- 原有的結局稱號與評語判定邏輯 ---
         var titleEl = document.getElementById("game-final-title");
         var ribbonEl = document.getElementById("game-result-ribbon");
         var evalBox = document.getElementById("game-evaluation-box");
@@ -1818,9 +1918,9 @@
           ribbonEl.style.background = "#34c759";
           evalBox.innerHTML = `
             <div class="cat-paw-decor">🐾🐾🐾🐾</div>
-            <p style="color: #34c759; margin: 5px 0; font-size:18px;"><b>恭喜你完成開設貓咪咖啡廳的任務！</b></p>
+            <p style="color: #34c759; margin: 5px 0; font-size:18px;"><b>恭喜你成功開設貓咪咖啡廳！</b></p>
             <p style="font-size:14px; color:#555; margin-top:5px;">
-              你成功展現了卓越的咖啡調配技術、敏銳的防詐直覺與精準的金融投資判斷力！貓咪咖啡廳正式隆重開幕囉！
+              你展現卓越的咖啡調配技術、敏銳的防詐直覺與精準的金融投資判斷力！貓咪咖啡廳隆重開幕囉！
             </p>
           `;
         } else {
@@ -1831,24 +1931,25 @@
           
           var reason = "";
           if (current_gold < 250000 && !bought_royal_machine) {
-            reason = "因為你的金幣未達 25 萬，且沒有買下皇家咖啡機。";
+            reason = "你的金幣未達 25 萬，且沒有買下皇家咖啡機。";
           } else if (current_gold < 250000) {
-            reason = "雖然你買了咖啡機，但最後總金幣未達 25 萬目標。";
+            reason = "雖然你買了咖啡機，但總金幣未達 25 萬。";
           } else {
-            reason = "雖然你存夠了錢，但是你忘記買最重要的【皇家咖啡機】了。";
+            reason = "雖然存夠錢，但忘記買【皇家咖啡機】了。";
           }
           
           evalBox.innerHTML = `
             <div class="cat-paw-decor">🐾</div>
             <p style="color: #e98b50; margin: 5px 0; font-size:18px;"><b>下次再接再厲！</b></p>
             <p style="font-size:14px; color:#666; margin-top:5px;">
-              ${reason}<br>多加留意資訊安全與資產分配，下次一定可以順利圓夢！
+              ${reason}<br>留意資訊安全與資產分配，下次一定可以圓夢！
             </p>
           `;
         }
         
         showPage("p-stage3-clear");
       }
+
 
       // 破產機制主核心：完美移除多餘邏輯，直接切換到跟結局一致的卡片
        function checkBankruptcy() {
