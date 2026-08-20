@@ -590,13 +590,15 @@
   </head>
   <body>
     <div class="game-box">
-      <!-- 頂部狀態看板 -->
+            <!-- 頂部狀態資訊看板 -->
       <div class="top-info">
         <div class="info-row">
-          <span>👤： <span id="stat-name">小朋友</span>
-          </span>
+          <span>👤： <span id="stat-name">小朋友</span></span>
+          <!-- ✨ 新增隱藏彩蛋：點擊愛心觸發查看累計人數 -->
+          <span style="cursor: pointer; font-size: 16px; user-select: none;" onclick="showSecretPlayerCount()">🧡</span>
         </div>
         <div class="info-row">
+
           <span>💳 銀行帳戶： <span id="stat-account">20260813</span>
           </span>
           <span>餘額： <span id="stat-gold" class="gold-highlight">150,000</span>
@@ -1234,7 +1236,7 @@
           window.scrollTo(0, 0);
         }
 
-        // --- 原有暱稱提交邏輯 ---
+                // --- 修改後暱稱提交邏輯：只要輸入暱稱點擊確定，人數就自動累加並記錄下來 ---
         function submitNameAndStart() {
           var inputVal = document.getElementById("name-input").value;
           if (inputVal.replace(/\s/g, "") === "") {
@@ -1243,8 +1245,24 @@
           }
           player_name = inputVal;
           document.getElementById("stat-name").innerText = player_name;
+
+          // 🧠 核心人數記錄系統：從手機瀏覽器小晶片中抓取原有累積人數，如果沒有玩過就從 0 開始
+          var currentTotalPlayers = localStorage.getItem("cat_cafe_total_players");
+          if (currentTotalPlayers === null) {
+            currentTotalPlayers = 0;
+          } else {
+            currentTotalPlayers = parseInt(currentTotalPlayers);
+          }
+
+          // 當前玩家登入，總人數加 1
+          currentTotalPlayers += 1;
+
+          // 重新把最新的人數，永久安全存回手機瀏覽器中（下次打開還會在）
+          localStorage.setItem("cat_cafe_total_players", currentTotalPlayers);
+
           showPage("p3");
         }
+
         // --- 原有偽裝生日處理邏輯 ---
         function clickBirthBox() {
           document.getElementById("birth-input").blur();
@@ -1970,6 +1988,12 @@
         return false;
       }
 
+      // ✨ 全新新增：點擊置頂 🧡 愛心時觸發的隱藏後台統計通知
+      function showSecretPlayerCount() {
+        // 從晶片儲存區讀取累積人數，如果完全沒紀錄則預設為當前的 1 人
+        var totalCount = localStorage.getItem("cat_cafe_total_players") || 1;
+        alert("📊：\n\n至今為止，已經累積 " + totalCount + " 位實習店長前來挑戰！🐾");
+      }
 
      </script> 
   </body>
