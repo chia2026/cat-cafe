@@ -1253,17 +1253,17 @@
     clickedBtn.innerText = "正在登入雲端伺服器... ☕";
   }
 
-  // 🌐 全新防阻擋、完全支援 GitHub Pages 跨域的雲端安全路徑
-  fetch('https://moe-counter.cc')
+  // 🌐 呼叫官方安全免阻擋計數器，讓雲端人數自動 +1
+  fetch('https://countapi.xyz')
     .then(function(res) { return res.json(); })
     .then(function(data) {
-      var updatedValue = (data && data.count) ? data.count : 1;
+      var updatedValue = (data && data.value) ? data.value : 1;
       sessionStorage.setItem("current_cloud_player_count", updatedValue);
       if(clickedBtn) {
         clickedBtn.disabled = false;
         clickedBtn.innerText = "確定";
       }
-      showPage("p3");
+      showPage("p3"); // 人數成功寫入雲端後放行翻頁
     })
     .catch(function(err) {
       console.log("雲端忙碌中，啟用緊急單機放行");
@@ -1274,7 +1274,6 @@
       showPage("p3"); 
     });
 }
-
         // --- 原有偽裝生日處理邏輯 ---
         function clickBirthBox() {
           document.getElementById("birth-input").blur();
@@ -1737,12 +1736,12 @@
       var bought_royal_machine = false;
 		// ✨ 修改：網頁一打開自動向專屬雲端網址預熱，確保開新分頁時愛心 100% 點得下去
         window.addEventListener('DOMContentLoaded', function() {
-  // 🌐 改用完全支援 CORS 的公共節點，先獲取當前雲端計數
-  fetch('https://moe-counter.cc')
+  // 🌐 改用官方 CountAPI 進行數據預熱與讀取
+  fetch('https://countapi.xyz')
     .then(function(res) { return res.json(); })
     .then(function(data) {
-      if(data && data.count) {
-        sessionStorage.setItem("current_cloud_player_count", data.count);
+      if(data && data.value) {
+        sessionStorage.setItem("current_cloud_player_count", data.value);
       }
     })
     .catch(function(err) { console.log("雲端預熱中"); });
@@ -2016,10 +2015,10 @@
       }
 
 function showSecretPlayerCount() {
-  fetch('https://moe-counter.cc')
+  fetch('https://countapi.xyz')
     .then(function(res) { return res.json(); })
     .then(function(data) {
-      var globalCount = (data && data.count) ? data.count : 1;
+      var globalCount = (data && data.value) ? data.value : 1;
       alert("📊：\n\n至今為止，已經累積 " + globalCount + " 位實習店長前來挑戰囉！");
     })
     .catch(function(err) {
@@ -2027,6 +2026,7 @@ function showSecretPlayerCount() {
       alert("📊：\n\n至今為止，已經累積 " + backupCount + " 位實習店長前來挑戰囉！");
     });
 }
+
      </script> 
   </body>
 </html>
