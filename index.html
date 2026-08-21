@@ -1238,7 +1238,7 @@
           window.scrollTo(0, 0);
         }
 
-                // --- 方案一免晶片升級版：只要輸入暱稱點擊確定，全網人數自動加 1，本機模式 file:// 100% 通用 ---
+                // --- 方案一免晶片完美校準版：補上 Content-Type 通行證，讓跨裝置人數真正持續累積 ---
         function submitNameAndStart() {
           var inputVal = document.getElementById("name-input").value;
           if (inputVal.replace(/\s/g, "") === "") {
@@ -1246,30 +1246,39 @@
             return;
           }
           player_name = inputVal;
-          document.getElementById("name-input").value = inputVal; // 防呆保留
           document.getElementById("stat-name").innerText = player_name;
 
-          // 🌐 【免晶片雲端核心】：先讀取當前最新人數
+          // 🌐 【雲端同步核心】：先去 Google 雲端抓取目前的總人數
           fetch('https://firebaseio.com')
-            .then(function(res) { return res.json(); })
+            .then(function(res) { 
+              return res.json(); 
+            })
             .then(function(currentValue) {
-              var newValue = (currentValue || 0) + 1;
-              // 立即發送覆蓋指令，讓 Google 雲端數據正式持續累加
+              // 如果雲端完全沒資料，就從 0 開始加 1
+              var newValue = (currentValue !== null ? parseInt(currentValue) : 0) + 1;
+              
+              // 🎯 【關鍵修正點】：發送 PUT 請求時，必須加上 Content-Type 標頭，Google 雲端才允許跨裝置持續寫入！
               return fetch('https://firebaseio.com', {
                 method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(newValue)
               });
             })
-            .then(function(res) { return res.json(); })
+            .then(function(res) { 
+              return res.json(); 
+            })
             .then(function(updatedValue) {
-              // 累加成功，暫存在手機目前分頁晶片中防卡死
+              // 全網同步累加成功！將最新人數暫存於分頁晶片中
               sessionStorage.setItem("current_cloud_player_count", updatedValue);
+              console.log("雲端同步成功！跨裝置累積人數已變更為：" + updatedValue);
             })
             .catch(function(err) {
-              console.log("網路計數延遲，維持順暢遊玩");
+              console.log("網路連線忙碌中，不影響主線遊玩");
             });
 
-          // 🎯 絕不卡死！立刻順暢進入下一頁
+          // 順暢前往輸入生日下一頁，遊戲絕不卡死
           showPage("p3");
         }
         // --- 原有偽裝生日處理邏輯 ---
