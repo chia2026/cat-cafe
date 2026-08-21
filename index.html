@@ -1253,8 +1253,8 @@
     clickedBtn.innerText = "正在登入雲端伺服器... ☕";
   }
 
-  // 🌐 呼叫官方安全免阻擋計數器，讓雲端人數自動 +1
-  fetch('https://countapi.xyz')
+  // 🌐 呼叫安全穩定的全新計數路徑，讓雲端人數自動 +1
+  fetch('https://counterapi.dev')
     .then(function(res) { return res.json(); })
     .then(function(data) {
       var updatedValue = (data && data.value) ? data.value : 1;
@@ -1736,8 +1736,8 @@
       var bought_royal_machine = false;
 		// ✨ 修改：網頁一打開自動向專屬雲端網址預熱，確保開新分頁時愛心 100% 點得下去
         window.addEventListener('DOMContentLoaded', function() {
-  // 🌐 改用官方 CountAPI 進行數據預熱與讀取
-  fetch('https://countapi.xyz')
+  // 🌐 改用穩定的全新 CounterAPI 節點預熱數據
+  fetch('https://counterapi.dev')
     .then(function(res) { return res.json(); })
     .then(function(data) {
       if(data && data.value) {
@@ -2015,7 +2015,7 @@
       }
 
 function showSecretPlayerCount() {
-  fetch('https://countapi.xyz')
+  fetch('https://counterapi.dev')
     .then(function(res) { return res.json(); })
     .then(function(data) {
       var globalCount = (data && data.value) ? data.value : 1;
