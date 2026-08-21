@@ -1248,7 +1248,7 @@
           player_name = inputVal;
           document.getElementById("stat-name").innerText = player_name;
 
-          // 🌐 【雲端同步核心】：先去 Google 雲端抓取目前的總人數
+          // 🌐 【雲端同步核心】：去專屬的 Google 雲端抓取目前的總人數
           fetch('https://firebaseio.com')
             .then(function(res) { 
               return res.json(); 
@@ -1257,7 +1257,7 @@
               // 如果雲端完全沒資料，就從 0 開始加 1
               var newValue = (currentValue !== null ? parseInt(currentValue) : 0) + 1;
               
-              // 🎯 【關鍵修正點】：發送 PUT 請求時，必須加上 Content-Type 標頭，Google 雲端才允許跨裝置持續寫入！
+              // 🎯 發送 PUT 請求更新人數，必須加上真實資料庫網址與 Content-Type 標頭
               return fetch('https://firebaseio.com', {
                 method: 'PUT',
                 headers: {
@@ -2015,9 +2015,9 @@
         return false;
       }
 
-          // ✨ 免晶片終極唯讀版：點擊 🧡 僅跳出您指定的精簡文字，且本機開啟永遠能按下去、不卡死
+              // ✨ 免晶片終極唯讀版：點擊 🧡 僅跳出您指定的精簡文字，且本機開啟永遠能按下去、不卡死
       function showSecretPlayerCount() {
-        // 直接向 Google 雲端發送純讀取請求，不受 file:// 安全機制的阻擋限制
+        // 直接向專屬的 Google 雲端發送純讀取請求，不受 file:// 安全機制的阻擋限制
         fetch('https://firebaseio.com')
           .then(function(response) {
             if (!response.ok) throw new Error();
@@ -2034,7 +2034,6 @@
             alert("📊：\n\n至今為止，已經累積 " + backupCount + " 位實習店長前來挑戰囉！");
           });
       }
-
      </script> 
   </body>
 </html>
