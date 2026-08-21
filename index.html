@@ -1238,8 +1238,7 @@
           window.scrollTo(0, 0);
         }
 
-                // --- 【全網跨裝置持續計數最終完美版】：等待雲端寫入完畢才翻頁，保證 100% 連線不丟包 ---
-        function submitNameAndStart() {
+  function submitNameAndStart() {
   var inputVal = document.getElementById("name-input").value;
   if (inputVal.replace(/\s/g, "") === "") {
     alert("請輸入暱稱喔！別留空。");
@@ -1254,44 +1253,30 @@
     clickedBtn.innerText = "正在登入雲端伺服器... ☕";
   }
 
-           // 連線至專屬正確的 Google Firebase 雲端節點路徑
-  fetch('https://firebaseio.com')
+  // 🌐 呼叫公共雲端計數器：這一步會讓雲端直接自動 +1，並回傳 +1 後的最新全網總人數值
+  fetch('https://hit.rest')
     .then(function(res) { return res.json(); })
-    .then(function(currentValue) {
-      var newValue = (currentValue !== null ? parseInt(currentValue) : 0) + 1;
-      return fetch('https://firebaseio.com', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newValue)
-      });
-    })
-    .then(function(res) { return res.json(); })
-    .then(function(updatedValue) {
+    .then(function(data) {
+      var updatedValue = (data && data.value) ? data.value : 1;
       sessionStorage.setItem("current_cloud_player_count", updatedValue);
+      
       if(clickedBtn) {
         clickedBtn.disabled = false;
         clickedBtn.innerText = "確定";
       }
-      showPage("p3"); // 確定雲端寫入成功後才放行翻頁，保證跨裝置不丟包！
+      showPage("p3"); // 確定雲端 +1 成功後才放行翻頁，保證不丟包！
     })
     .catch(function(err) {
+      console.log("雲端忙碌中，啟用緊急單機放行");
       if(clickedBtn) {
+        if(clickedBtn) {
         clickedBtn.disabled = false;
         clickedBtn.innerText = "確定";
       }
-      showPage("p3"); // 斷網時防卡死備用放行
-    });
-}
-            .catch(function(err) {
-              console.log("雲端連線忙碌中，啟用緊急單機放行");
-              // 萬一完全斷網，防呆機制直接放行，不影響小朋友玩遊戲
-              if(clickedBtn) {
-                clickedBtn.disabled = false;
-                clickedBtn.innerText = "確定";
-              }
-              showPage("p3");
-            });
-        }
+      showPage("p3"); 
+   	 });
+	}
+     
 
         // --- 原有偽裝生日處理邏輯 ---
         function clickBirthBox() {
@@ -1755,9 +1740,15 @@
       var bought_royal_machine = false;
 		// ✨ 修改：網頁一打開自動向專屬雲端網址預熱，確保開新分頁時愛心 100% 點得下去
         window.addEventListener('DOMContentLoaded', function() {
-  		fetch('https://firebaseio.com')
-    			.then(function(response) { return response.json(); })
-    			.catch(function(err) { console.log("雲端預熱中"); });
+  	// 公共節點預熱，先獲取當前雲端計數
+  	fetch('https://hit.rest')
+    		.then(function(res) { return res.json(); })
+    		.then(function(data) {
+      		if(data && data.value) {
+        sessionStorage.setItem("current_cloud_player_count", data.value);
+      		}
+    		})
+    		.catch(function(err) { console.log("雲端預熱中"); });
 	});	
 
       function startLevelThreePage() {
@@ -2027,14 +2018,11 @@
         return false;
       }
 
-          function showSecretPlayerCount() {
-  fetch('https://firebaseio.com')
-    .then(function(response) {
-      if (!response.ok) throw new Error();
-      return response.json();
-    })
-    .then(function(cloudValue) {
-      var globalCount = cloudValue !== null ? cloudValue : 1;
+function showSecretPlayerCount() {
+  fetch('https://hit.rest')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      var globalCount = (data && data.value) ? data.value : 1;
       alert("📊：\n\n至今為止，已經累積 " + globalCount + " 位實習店長前來挑戰囉！");
     })
     .catch(function(err) {
