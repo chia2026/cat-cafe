@@ -1253,7 +1253,7 @@
     clickedBtn.innerText = "正在登入雲端伺服器... ☕";
   }
 
-  // 🌐 呼叫公共雲端計數器：這一步會讓雲端直接自動 +1，並回傳 +1 後的最新全網總人數值
+  // 🌐 呼叫公共雲端計數器：這一步會讓雲端直接自動 +1，並回傳最新全網總人數值
   fetch('https://hit.rest')
     .then(function(res) { return res.json(); })
     .then(function(data) {
@@ -1269,13 +1269,13 @@
     .catch(function(err) {
       console.log("雲端忙碌中，啟用緊急單機放行");
       if(clickedBtn) {
-        if(clickedBtn) {
         clickedBtn.disabled = false;
         clickedBtn.innerText = "確定";
       }
       showPage("p3"); 
-   	 });
-	}
+    });
+}
+
      
 
         // --- 原有偽裝生日處理邏輯 ---
@@ -1740,16 +1740,16 @@
       var bought_royal_machine = false;
 		// ✨ 修改：網頁一打開自動向專屬雲端網址預熱，確保開新分頁時愛心 100% 點得下去
         window.addEventListener('DOMContentLoaded', function() {
-  	// 公共節點預熱，先獲取當前雲端計數
-  	fetch('https://hit.rest')
-    		.then(function(res) { return res.json(); })
-    		.then(function(data) {
-      		if(data && data.value) {
+  // 公共節點預熱，先獲取當前雲端計數
+  fetch('https://hit.rest')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if(data && data.value) {
         sessionStorage.setItem("current_cloud_player_count", data.value);
-      		}
-    		})
-    		.catch(function(err) { console.log("雲端預熱中"); });
-	});	
+      }
+    })
+    .catch(function(err) { console.log("雲端預熱中"); });
+});
 
       function startLevelThreePage() {
         var nameSpans = document.getElementsByClassName("l2-player-name");
@@ -2030,6 +2030,7 @@ function showSecretPlayerCount() {
       alert("📊：\n\n至今為止，已經累積 " + backupCount + " 位實習店長前來挑戰囉！");
     });
 }
+
      </script> 
   </body>
 </html>
