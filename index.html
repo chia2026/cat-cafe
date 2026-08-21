@@ -1238,8 +1238,7 @@
           window.scrollTo(0, 0);
         }
 
-        // --- 雲端連線版：只有輸入暱稱點擊確定時，全網人數才會真正加 1 ---
-                // --- 【BUG 完全修復版】：修復卡死問題，並完美啟動跨裝置雲端持續計數 ---
+                // --- 方案一免晶片升級版：只要輸入暱稱點擊確定，全網人數自動加 1，本機模式 file:// 100% 通用 ---
         function submitNameAndStart() {
           var inputVal = document.getElementById("name-input").value;
           if (inputVal.replace(/\s/g, "") === "") {
@@ -1247,26 +1246,32 @@
             return;
           }
           player_name = inputVal;
+          document.getElementById("name-input").value = inputVal; // 防呆保留
           document.getElementById("stat-name").innerText = player_name;
 
-          // 🌐 【雲端同步核心校準】：登入時發送正確的「累加指令」給雲端伺服器
-          fetch('https://getloli.com')
-            .then(function(response) {
-              return response.json();
+          // 🌐 【免晶片雲端核心】：先讀取當前最新人數
+          fetch('https://firebaseio.com')
+            .then(function(res) { return res.json(); })
+            .then(function(currentValue) {
+              var newValue = (currentValue || 0) + 1;
+              // 立即發送覆蓋指令，讓 Google 雲端數據正式持續累加
+              return fetch('https://firebaseio.com', {
+                method: 'PUT',
+                body: JSON.stringify(newValue)
+              });
             })
-            .then(function(data) {
-              // 連線成功！將最新人數暫存於記憶體，確保開新分頁點擊愛心時絕對不卡死
-              sessionStorage.setItem("current_cloud_player_count", data.value);
-              console.log("全網人數已順利在雲端持續累加！目前總數為：" + data.value);
+            .then(function(res) { return res.json(); })
+            .then(function(updatedValue) {
+              // 累加成功，暫存在手機目前分頁晶片中防卡死
+              sessionStorage.setItem("current_cloud_player_count", updatedValue);
             })
             .catch(function(err) {
-              console.log("網路連線稍微忙碌中");
+              console.log("網路計數延遲，維持順暢遊玩");
             });
 
-          // 🎯 【關鍵修復】：補上原本遺漏的場景切換指令，讓遊戲順利前進下一頁！
+          // 🎯 絕不卡死！立刻順暢進入下一頁
           showPage("p3");
         }
-
         // --- 原有偽裝生日處理邏輯 ---
         function clickBirthBox() {
           document.getElementById("birth-input").blur();
@@ -1447,7 +1452,7 @@
           }, 1000);
         }
         
-                // 最終回到主線：更新金幣，顯示第一關通關結算（直式數學記帳版）
+        // 最終回到主線：更新金幣，顯示第一關通關結算（直式數學記帳版）
         function finishStage1AndRefreshGold() {
           current_gold = 150000 + quiz_earned_gold + scam_penalty_gold;
           document.getElementById("stat-gold").innerText = current_gold.toLocaleString();
@@ -2001,20 +2006,21 @@
         return false;
       }
 
-            // ✨ 終極唯讀版：改用 /view/ 網址點擊不重複加 1，且內建防卡死，永遠 100% 能點開
+          // ✨ 免晶片終極唯讀版：點擊 🧡 僅跳出您指定的精簡文字，且本機開啟永遠能按下去、不卡死
       function showSecretPlayerCount() {
-        fetch('https://getloli.com')
+        // 直接向 Google 雲端發送純讀取請求，不受 file:// 安全機制的阻擋限制
+        fetch('https://firebaseio.com')
           .then(function(response) {
             if (!response.ok) throw new Error();
             return response.json();
           })
-          .then(function(data) {
-            var globalCount = data.value;
-            // 雲端正常，精準套用您指定的精簡文字
+          .then(function(cloudValue) {
+            var globalCount = cloudValue !== null ? cloudValue : 1;
+            // 精準套用您設定的精簡文字
             alert("📊：\n\n至今為止，已經累積 " + globalCount + " 位實習店長前來挑戰囉！");
           })
           .catch(function(err) {
-            // 防卡備用安全閥：若開新分頁外部網路太慢，一秒讀取快取（無快取則顯示1），按鈕絕對不卡死！
+            // 安全防護閥：萬一開新分頁網路太慢或斷線，一秒讀取暫存（無暫存則顯示1），按鈕絕對不卡死！
             var backupCount = sessionStorage.getItem("current_cloud_player_count") || 1;
             alert("📊：\n\n至今為止，已經累積 " + backupCount + " 位實習店長前來挑戰囉！");
           });
