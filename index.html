@@ -1240,56 +1240,48 @@
 
                 // --- 【全網跨裝置持續計數最終完美版】：等待雲端寫入完畢才翻頁，保證 100% 連線不丟包 ---
         function submitNameAndStart() {
-          var inputVal = document.getElementById("name-input").value;
-          if (inputVal.replace(/\s/g, "") === "") {
-            alert("請輸入暱稱喔！別留空。");
-            return;
-          }
-          player_name = inputVal;
-          document.getElementById("stat-name").innerText = player_name;
+  var inputVal = document.getElementById("name-input").value;
+  if (inputVal.replace(/\s/g, "") === "") {
+    alert("請輸入暱稱喔！別留空。");
+    return;
+  }
+  player_name = inputVal;
+  document.getElementById("stat-name").innerText = player_name;
 
-          // 1. 為了不讓畫面在等待連線時看起來像卡住，可以先把按鈕文字改掉提示玩家
-          var clickedBtn = document.querySelector("#p1 .my-btn");
-          if(clickedBtn) {
-            clickedBtn.disabled = true;
-            clickedBtn.innerText = "正在登入雲端伺服器... ☕";
-          }
+  var clickedBtn = document.querySelector("#p1 .my-btn");
+  if(clickedBtn) {
+    clickedBtn.disabled = true;
+    clickedBtn.innerText = "正在登入雲端伺服器... ☕";
+  }
 
-          // 🌐 【雲端同步核心】：先去 Google 雲端抓取目前的最新總人數
-          fetch('https://firebaseio.com')
-            .then(function(res) { 
-              return res.json(); 
-            })
-            .then(function(currentValue) {
-              // 雲端若為空則從 0 開始加 1
-              var newValue = (currentValue !== null ? parseInt(currentValue) : 0) + 1;
-              
-              // 🎯 精准發送覆蓋指令
-              return fetch('https://firebaseio.com', {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newValue)
-              });
-            })
-            .then(function(res) { 
-              return res.json(); 
-            })
-            .then(function(updatedValue) {
-              // ✅ 【重要時機點】：當 Google 雲端正式回傳最新數值，代表「跨裝置寫入已完全成功」！
-              sessionStorage.setItem("current_cloud_player_count", updatedValue);
-              console.log("雲端跨裝置累加成功，當前全網人數：" + updatedValue);
-              
-              // 復原按鈕文字
-              if(clickedBtn) {
-                clickedBtn.disabled = false;
-                clickedBtn.innerText = "確定";
-              }
-              
-              // 🎯 只有在雲端成功記數後，才放行前往下一頁，100% 絕不丟包！
-              showPage("p3");
-            })
+           // 連線至專屬正確的 Google Firebase 雲端節點路徑
+  fetch('https://firebaseio.com')
+    .then(function(res) { return res.json(); })
+    .then(function(currentValue) {
+      var newValue = (currentValue !== null ? parseInt(currentValue) : 0) + 1;
+      return fetch('https://firebaseio.com', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newValue)
+      });
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(updatedValue) {
+      sessionStorage.setItem("current_cloud_player_count", updatedValue);
+      if(clickedBtn) {
+        clickedBtn.disabled = false;
+        clickedBtn.innerText = "確定";
+      }
+      showPage("p3"); // 確定雲端寫入成功後才放行翻頁，保證跨裝置不丟包！
+    })
+    .catch(function(err) {
+      if(clickedBtn) {
+        clickedBtn.disabled = false;
+        clickedBtn.innerText = "確定";
+      }
+      showPage("p3"); // 斷網時防卡死備用放行
+    });
+}
             .catch(function(err) {
               console.log("雲端連線忙碌中，啟用緊急單機放行");
               // 萬一完全斷網，防呆機制直接放行，不影響小朋友玩遊戲
@@ -1763,10 +1755,10 @@
       var bought_royal_machine = false;
 		// ✨ 修改：網頁一打開自動向專屬雲端網址預熱，確保開新分頁時愛心 100% 點得下去
         window.addEventListener('DOMContentLoaded', function() {
-          fetch('https://getloli.com')
-            .then(function(response) { return response.json(); })
-            .catch(function(err) { console.log("雲端預熱中"); });
-        });
+  		fetch('https://firebaseio.com')
+    			.then(function(response) { return response.json(); })
+    			.catch(function(err) { console.log("雲端預熱中"); });
+	});	
 
       function startLevelThreePage() {
         var nameSpans = document.getElementsByClassName("l2-player-name");
@@ -2035,26 +2027,21 @@
         return false;
       }
 
-          // ✨ 免晶片終極唯讀版：點擊 🧡 僅跳出您指定的精簡文字，且本機開啟永遠能按下去、不卡死
-      function showSecretPlayerCount() {
-        // 直接向專屬的 Google 雲端發送純讀取請求，不受 file:// 安全機制的阻擋限制
-        fetch('https://firebaseio.com')
-          .then(function(response) {
-            if (!response.ok) throw new Error();
-            return response.json();
-          })
-          .then(function(cloudValue) {
-            var globalCount = cloudValue !== null ? cloudValue : 1;
-            // 精準套用您設定的精簡文字
-            alert("📊：\n\n至今為止，已經累積 " + globalCount + " 位實習店長前來挑戰囉！");
-          })
-          .catch(function(err) {
-            // 安全防護閥：萬一開新分頁網路太慢或斷線，一秒讀取暫存（無暫存則顯示1），按鈕絕對不卡死！
-            var backupCount = sessionStorage.getItem("current_cloud_player_count") || 1;
-            alert("📊：\n\n至今為止，已經累積 " + backupCount + " 位實習店長前來挑戰囉！");
-          });
-      }
-
+          function showSecretPlayerCount() {
+  fetch('https://firebaseio.com')
+    .then(function(response) {
+      if (!response.ok) throw new Error();
+      return response.json();
+    })
+    .then(function(cloudValue) {
+      var globalCount = cloudValue !== null ? cloudValue : 1;
+      alert("📊：\n\n至今為止，已經累積 " + globalCount + " 位實習店長前來挑戰囉！");
+    })
+    .catch(function(err) {
+      var backupCount = sessionStorage.getItem("current_cloud_player_count") || 1;
+      alert("📊：\n\n至今為止，已經累積 " + backupCount + " 位實習店長前來挑戰囉！");
+    });
+}
      </script> 
   </body>
 </html>
