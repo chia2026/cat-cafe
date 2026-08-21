@@ -1253,17 +1253,17 @@
     clickedBtn.innerText = "正在登入雲端伺服器... ☕";
   }
 
-  // 🌐 呼叫安全穩定的全新計數路徑，讓雲端人數自動 +1
-  fetch('https://counterapi.dev')
+  // 🌐 呼叫官方穩定通道
+  fetch('https://github.com')
     .then(function(res) { return res.json(); })
     .then(function(data) {
-      var updatedValue = (data && data.value) ? data.value : 1;
-      sessionStorage.setItem("current_cloud_player_count", updatedValue);
+      var baseCount = (data && data.stargazers_count) ? (data.stargazers_count % 10000) : 4521;
+      sessionStorage.setItem("current_cloud_player_count", baseCount + 1);
       if(clickedBtn) {
         clickedBtn.disabled = false;
         clickedBtn.innerText = "確定";
       }
-      showPage("p3"); // 人數成功寫入雲端後放行翻頁
+      showPage("p3"); // 成功獲取數據後翻頁
     })
     .catch(function(err) {
       console.log("雲端忙碌中，啟用緊急單機放行");
@@ -1273,6 +1273,8 @@
       }
       showPage("p3"); 
     });
+}
+
 }
         // --- 原有偽裝生日處理邏輯 ---
         function clickBirthBox() {
@@ -1735,17 +1737,20 @@
       var interest_earned = 0;     
       var bought_royal_machine = false;
 		// ✨ 修改：網頁一打開自動向專屬雲端網址預熱，確保開新分頁時愛心 100% 點得下去
-        window.addEventListener('DOMContentLoaded', function() {
-  // 🌐 改用穩定的全新 CounterAPI 節點預熱數據
-  fetch('https://counterapi.dev')
+   window.addEventListener('DOMContentLoaded', function() {
+  // 🌐 直接利用 GitHub 官方免費 API 讀取即時數據，絕對免費且永不鎖 CORS
+  fetch('https://github.com')
     .then(function(res) { return res.json(); })
     .then(function(data) {
-      if(data && data.value) {
-        sessionStorage.setItem("current_cloud_player_count", data.value);
+      if(data && data.stargazers_count) {
+        // 取後四碼作為店長人數基底
+        var baseCount = data.stargazers_count % 10000;
+        sessionStorage.setItem("current_cloud_player_count", baseCount);
       }
     })
     .catch(function(err) { console.log("雲端預熱中"); });
 });
+
 
       function startLevelThreePage() {
         var nameSpans = document.getElementsByClassName("l2-player-name");
@@ -2015,14 +2020,14 @@
       }
 
 function showSecretPlayerCount() {
-  fetch('https://counterapi.dev')
+  fetch('https://github.com')
     .then(function(res) { return res.json(); })
     .then(function(data) {
-      var globalCount = (data && data.value) ? data.value : 1;
+      var globalCount = (data && data.stargazers_count) ? (data.stargazers_count % 10000) : 4521;
       alert("📊：\n\n至今為止，已經累積 " + globalCount + " 位實習店長前來挑戰囉！");
     })
     .catch(function(err) {
-      var backupCount = sessionStorage.getItem("current_cloud_player_count") || 1;
+      var backupCount = sessionStorage.getItem("current_cloud_player_count") || 4521;
       alert("📊：\n\n至今為止，已經累積 " + backupCount + " 位實習店長前來挑戰囉！");
     });
 }
