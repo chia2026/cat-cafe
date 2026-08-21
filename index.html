@@ -1253,18 +1253,17 @@
     clickedBtn.innerText = "正在登入雲端伺服器... ☕";
   }
 
-  // 🌐 呼叫安全免 CORS 阻擋的雲端計數器：這一步會讓雲端直接 +1
+  // 🌐 全新防阻擋安全路徑
   fetch('https://moe-counter.cc')
     .then(function(res) { return res.json(); })
     .then(function(data) {
       var updatedValue = (data && data.count) ? data.count : 1;
       sessionStorage.setItem("current_cloud_player_count", updatedValue);
-      
       if(clickedBtn) {
         clickedBtn.disabled = false;
         clickedBtn.innerText = "確定";
       }
-      showPage("p3"); // 確定雲端 +1 成功後才放行翻頁，保證不丟包！
+      showPage("p3");
     })
     .catch(function(err) {
       console.log("雲端忙碌中，啟用緊急單機放行");
@@ -1275,10 +1274,6 @@
       showPage("p3"); 
     });
 }
-
-
-
-     
 
         // --- 原有偽裝生日處理邏輯 ---
         function clickBirthBox() {
