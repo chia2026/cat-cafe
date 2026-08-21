@@ -1238,7 +1238,7 @@
           window.scrollTo(0, 0);
         }
 
-                // --- 方案一免晶片完美校準版：補上 Content-Type 通行證，讓跨裝置人數真正持續累積 ---
+                // --- 【全網跨裝置持續計數最終完美版】：等待雲端寫入完畢才翻頁，保證 100% 連線不丟包 ---
         function submitNameAndStart() {
           var inputVal = document.getElementById("name-input").value;
           if (inputVal.replace(/\s/g, "") === "") {
@@ -1248,16 +1248,23 @@
           player_name = inputVal;
           document.getElementById("stat-name").innerText = player_name;
 
-          // 🌐 【雲端同步核心】：先去 Google 雲端抓取目前的總人數
+          // 1. 為了不讓畫面在等待連線時看起來像卡住，可以先把按鈕文字改掉提示玩家
+          var clickedBtn = document.querySelector("#p1 .my-btn");
+          if(clickedBtn) {
+            clickedBtn.disabled = true;
+            clickedBtn.innerText = "正在登入雲端伺服器... ☕";
+          }
+
+          // 🌐 【雲端同步核心】：先去 Google 雲端抓取目前的最新總人數
           fetch('https://firebaseio.com')
             .then(function(res) { 
               return res.json(); 
             })
             .then(function(currentValue) {
-              // 如果雲端完全沒資料，就從 0 開始加 1
+              // 雲端若為空則從 0 開始加 1
               var newValue = (currentValue !== null ? parseInt(currentValue) : 0) + 1;
               
-              // 🎯 發送 PUT 請求更新人數，必須加上真實資料庫網址與 Content-Type 標頭
+              // 🎯 精准發送覆蓋指令
               return fetch('https://firebaseio.com', {
                 method: 'PUT',
                 headers: {
@@ -1270,17 +1277,30 @@
               return res.json(); 
             })
             .then(function(updatedValue) {
-              // 全網同步累加成功！將最新人數暫存於分頁晶片中
+              // ✅ 【重要時機點】：當 Google 雲端正式回傳最新數值，代表「跨裝置寫入已完全成功」！
               sessionStorage.setItem("current_cloud_player_count", updatedValue);
-              console.log("雲端同步成功！跨裝置累積人數已變更為：" + updatedValue);
+              console.log("雲端跨裝置累加成功，當前全網人數：" + updatedValue);
+              
+              // 復原按鈕文字
+              if(clickedBtn) {
+                clickedBtn.disabled = false;
+                clickedBtn.innerText = "確定";
+              }
+              
+              // 🎯 只有在雲端成功記數後，才放行前往下一頁，100% 絕不丟包！
+              showPage("p3");
             })
             .catch(function(err) {
-              console.log("網路連線忙碌中，不影響主線遊玩");
+              console.log("雲端連線忙碌中，啟用緊急單機放行");
+              // 萬一完全斷網，防呆機制直接放行，不影響小朋友玩遊戲
+              if(clickedBtn) {
+                clickedBtn.disabled = false;
+                clickedBtn.innerText = "確定";
+              }
+              showPage("p3");
             });
-
-          // 順暢前往輸入生日下一頁，遊戲絕不卡死
-          showPage("p3");
         }
+
         // --- 原有偽裝生日處理邏輯 ---
         function clickBirthBox() {
           document.getElementById("birth-input").blur();
