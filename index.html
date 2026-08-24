@@ -647,13 +647,13 @@
         <p>為了開設一家夢想中的貓咪咖啡廳，『 <span id="intro-player-name" class="highlight-text"></span>』每天去咖啡店學做咖啡。 </p>
         <div class="customer-box" style="background-color: #fffdf0;">
           <div class="customer-title">🦁 咖啡大獅：</div>
-          <p style="margin: 5px 0; font-size: 15px;">「作為我的徒弟，要記得所有咖啡的配方。你有 <span class="highlight-text">20秒</span> 可以記得配方，接著就去面對客人吧！」 </p>
+          <p style="margin: 5px 0; font-size: 15px;">「作為我的徒弟，要記得所有咖啡的配方。你有 <span class="highlight-text">30秒</span> 可以記得配方，接著就去面對客人吧！」 </p>
         </div>
         <button class="my-btn" onclick="startRecipeMemoryStage()">我知道了，開始記配方！</button>
       </div>
-      <!-- 20秒配方記憶畫面（已根據需求進行局部的文字與圖片修改） -->
+      <!-- 30秒配方記憶畫面（已根據需求進行局部的文字與圖片修改） -->
       <div id="p-memory" class="page">
-        <div class="timer-banner">⏳ 剩餘記憶時間： <span id="memory-timer">20</span> 秒 </div>
+        <div class="timer-banner">⏳ 剩餘記憶時間： <span id="memory-timer">30</span> 秒 </div>
         <h2>📋 咖啡秘笈</h2>
         <!-- 1. 已將「皇家咖啡秘笈」改成「咖啡秘笈」 -->
         <div class="recipe-chart-container">
@@ -1318,10 +1318,10 @@
         /* ==========================================================================
            以下為新增的第一關核心 JS 互動控制邏輯
            ========================================================================== */
-        // 啟動 20秒配方記憶階段
+        // 啟動 30秒配方記憶階段
         function startRecipeMemoryStage() {
           showPage("p-memory");
-          var timeLeft = 20;
+          var timeLeft = 30;
           document.getElementById("memory-timer").innerText = timeLeft;
           // 啟動倒數計時器
           recipe_timer_interval = setInterval(function() {
@@ -2021,11 +2021,11 @@ function showSecretPlayerCount() {
     .then(function(res) { return res.json(); })
     .then(function(data) {
       var globalCount = (data && data.count) ? data.count : 1;
-      alert("📊：\n\n至今為止，已經累積 " + globalCount + " 位實習店長前來挑戰囉！");
+      alert("📊：\n\n至今為止，已經累積 " + globalCount + " 位前來挑戰！");
     })
     .catch(function(err) {
       var backupCount = sessionStorage.getItem("current_cloud_player_count") || 1;
-      alert("📊：\n\n至今為止，已經累積 " + backupCount + " 位實習店長前來挑戰囉！");
+      alert("📊：\n\n至今為止，已經累積 " + backupCount + " 位前來挑戰！");
     });
 }
 
